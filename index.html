@@ -1,1281 +1,2150 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Academia Belfort — Telégrafo & Sacramenta</title>
-<meta name="description" content="Academia Belfort — Musculação e Cross Training em Belém. Duas unidades, estrutura completa, resultados reais.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-<style>
 
-/* ══════════════════════════════════════════
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academia Belfort</title>
+  <meta name="description"
+    content="Academia Belfort — Musculação e Cross Training em Belém. Duas unidades, estrutura completa, resultados reais.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="shortcut icon" href="/images/icone-acad.png" type="image/x-icon">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ══════════════════════════════════════════
    RESET & VARIABLES
 ══════════════════════════════════════════ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-:root {
-  --red:        #CC3738;
-  --red-dark:   #8F1F20;
-  --red-glow:   #FF4444;
-  --blue:       #0D1F3C;
-  --blue-mid:   #162D55;
-  --blue-light: #1E4A8A;
-  --white:      #FFFFFF;
-  --cream:      #F2F0EB;
-  --gray:       #888;
-  --gray-light: #E0DFDB;
-  --text:       #111;
-  --ease:       cubic-bezier(0.4, 0, 0.2, 1);
-}
+    :root {
+      --red: #CC3738;
+      --red-dark: #8F1F20;
+      --red-glow: #FF4444;
+      --blue: #0D1F3C;
+      --blue-mid: #162D55;
+      --blue-light: #1E4A8A;
+      --white: #FFFFFF;
+      --cream: #F2F0EB;
+      --gray: #888;
+      --gray-light: #E0DFDB;
+      --text: #111;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--blue);
-  color: var(--white);
-  overflow-x: hidden;
-}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--blue);
+      color: var(--white);
+      overflow-x: hidden;
+    }
 
-img { display: block; max-width: 100%; }
-a { text-decoration: none; color: inherit; }
+    img {
+      display: block;
+      max-width: 100%;
+    }
 
-/* ══════════════════════════════════════════
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* CARDS COLETIVAS */
+    .coletivas-section {
+      background: #080F1C;
+      padding: 6rem 2rem;
+    }
+
+    .coletivas-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .coletivas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 3rem;
+    }
+
+    .coletiva-card {
+      border-radius: 14px;
+      padding: 1.4rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .coletiva-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .coletiva-icon {
+      font-size: 2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .coletiva-nome {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.06em;
+      color: var(--white);
+    }
+
+    .coletiva-desc {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* cores por modalidade */
+    .col-fitdance {
+      background: rgba(236, 72, 153, 0.15);
+      border-color: rgba(236, 72, 153, 0.3);
+    }
+
+    .col-pilates {
+      background: rgba(37, 99, 212, 0.15);
+      border-color: rgba(37, 99, 212, 0.3);
+    }
+
+    .col-boxe {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+
+    .col-muaythai {
+      background: rgba(234, 179, 8, 0.15);
+      border-color: rgba(234, 179, 8, 0.3);
+    }
+
+    .col-ritmos {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .col-ritbox {
+      background: rgba(139, 92, 246, 0.15);
+      border-color: rgba(139, 92, 246, 0.3);
+    }
+
+    .col-funcional {
+      background: rgba(34, 197, 94, 0.15);
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .col-danca {
+      background: rgba(249, 115, 22, 0.15);
+      border-color: rgba(249, 115, 22, 0.3);
+    }
+
+    .col-corrida {
+      background: rgba(251, 146, 60, 0.15);
+      border-color: rgba(251, 146, 60, 0.3);
+    }
+
+    .col-jump {
+      background: rgba(20, 184, 166, 0.15);
+      border-color: rgba(20, 184, 166, 0.3);
+    }
+
+    .col-powermix {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: rgba(168, 85, 247, 0.3);
+    }
+
+    .btn-ver-grade {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 0 auto;
+      background: var(--red);
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 1rem 2.5rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .btn-ver-grade:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #0D1F3C;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 900px;
+      max-height: 90vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .modal-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.04em;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+      font-family: inherit;
+    }
+
+    .modal-close:hover {
+      color: var(--white);
+    }
+
+    .modal-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 1.2rem 2rem 0;
+    }
+
+    .modal-tab {
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-tab.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--white);
+    }
+
+    .modal-body {
+      overflow-y: auto;
+      padding: 1.5rem 2rem 2rem;
+      flex: 1;
+    }
+
+    .grade-panel {
+      display: none;
+    }
+
+    .grade-panel.active {
+      display: block;
+    }
+
+    /* TABELA DE GRADE */
+    .grade-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+
+    .grade-table th {
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.7rem 0.5rem;
+      text-align: center;
+    }
+
+    .grade-table th:first-child {
+      text-align: left;
+      padding-left: 0.8rem;
+    }
+
+    .grade-table td {
+      padding: 0.55rem 0.4rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.03em;
+    }
+
+    .grade-table td:first-child {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      color: var(--red-glow);
+      text-align: left;
+      padding-left: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .grade-table tr:hover td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    /* cores nas células */
+    .c-fitdance {
+      color: #EC4899 !important;
+    }
+
+    .c-pilates {
+      color: #2563D4 !important;
+    }
+
+    .c-boxe {
+      color: #06B6D4 !important;
+    }
+
+    .c-muaythai {
+      color: #EAB308 !important;
+    }
+
+    .c-ritmos {
+      color: #EF4444 !important;
+    }
+
+    .c-ritbox {
+      color: #8B5CF6 !important;
+    }
+
+    .c-funcional {
+      color: #22C55E !important;
+    }
+
+    .c-danca {
+      color: #F97316 !important;
+    }
+
+    .c-corrida {
+      color: #FB923C !important;
+    }
+
+    .c-jump {
+      color: #14B8A6 !important;
+    }
+
+    .c-powermix {
+      color: #A855F7 !important;
+    }
+
+    @media (max-width: 600px) {
+      .coletivas-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .modal-box {
+        border-radius: 14px;
+      }
+
+      .modal-header {
+        padding: 1rem 1.2rem;
+      }
+
+      .modal-body {
+        padding: 1rem 1rem 1.5rem;
+      }
+
+      .modal-tabs {
+        padding: 1rem 1rem 0;
+      }
+
+      .grade-table {
+        font-size: 0.65rem;
+      }
+
+      .grade-table td:first-child {
+        font-size: 0.82rem;
+      }
+    }
+
+    /* ══════════════════════════════════════════
    NAV
 ══════════════════════════════════════════ */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 1.2rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: background 0.4s var(--ease), backdrop-filter 0.4s;
-}
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s var(--ease), backdrop-filter 0.4s;
+    }
 
-nav.scrolled {
-  background: rgba(13, 31, 60, 0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
+    nav.scrolled {
+      background: rgba(13, 31, 60, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
 
-.nav-logo img {
-  height: 36px;
-  width: auto;
-}
+    .nav-logo img {
+      height: 36px;
+      width: auto;
+    }
 
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  list-style: none;
-}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
 
-.nav-links a {
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
-  transition: color 0.2s;
-}
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+      transition: color 0.2s;
+    }
 
-.nav-links a:hover { color: var(--white); }
+    .nav-links a:hover {
+      color: var(--white);
+    }
 
-.nav-cta {
-  background: var(--red) !important;
-  color: var(--white) !important;
-  padding: 0.5rem 1.2rem !important;
-  border-radius: 6px;
-  font-weight: 600 !important;
-  transition: background 0.2s !important;
-}
+    .nav-cta {
+      background: var(--red) !important;
+      color: var(--white) !important;
+      padding: 0.5rem 1.2rem !important;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      transition: background 0.2s !important;
+    }
 
-.nav-cta:hover { background: var(--red-dark) !important; }
+    .nav-cta:hover {
+      background: var(--red-dark) !important;
+    }
 
-.nav-hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  padding: 4px;
-}
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
 
-.nav-hamburger span {
-  display: block;
-  width: 24px;
-  height: 2px;
-  background: var(--white);
-  border-radius: 2px;
-  transition: 0.3s;
-}
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
 
-/* ══════════════════════════════════════════
+    /* ══════════════════════════════════════════
    HERO
 ══════════════════════════════════════════ */
-.hero {
-  min-height: 100vh;
-  position: relative;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  background: var(--blue);
-}
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: var(--blue);
+    }
 
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(204,55,56,0.15) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(30,74,138,0.4) 0%, transparent 60%);
-}
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 80% 50%, rgba(204, 55, 56, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(30, 74, 138, 0.4) 0%, transparent 60%);
+    }
 
-/* Diagonal accent */
-.hero-diagonal {
-  position: absolute;
-  top: 0; right: 0;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(135deg, transparent 0%, rgba(204,55,56,0.08) 100%);
-  clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
-}
+    /* Diagonal accent */
+    .hero-diagonal {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 0%, rgba(204, 55, 56, 0.08) 100%);
+      clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
 
-/* Grid lines decorativas */
-.hero-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
+    .hero-image img {
+      height: auto;
+      width: 280px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s var(--ease) 0.1s both;
+    }
 
-.hero-content {
-  position: relative;
-  z-index: 2;
-  padding: 0 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-  padding-top: 5rem;
-}
+    /* Grid lines decorativas */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
 
-.hero-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--red-glow);
-  margin-bottom: 1.5rem;
-  animation: fadeUp 0.8s var(--ease) 0.1s both;
-}
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding-top: 5rem;
+    }
 
-.hero-tag::before {
-  content: '';
-  display: block;
-  width: 24px;
-  height: 2px;
-  background: var(--red-glow);
-}
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red-glow);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s var(--ease) 0.1s both;
+    }
 
-.hero-h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(4.5rem, 12vw, 9rem);
-  line-height: 0.88;
-  letter-spacing: 0.02em;
-  color: var(--white);
-  animation: fadeUp 0.8s var(--ease) 0.2s both;
-}
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--red-glow);
+    }
 
-.hero-h1 .accent {
-  color: var(--red);
-  display: block;
-}
+    .hero-h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4.5rem, 12vw, 9rem);
+      line-height: 0.88;
+      letter-spacing: 0.02em;
+      color: var(--white);
+      animation: fadeUp 0.8s var(--ease) 0.2s both;
+    }
 
-.hero-sub {
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  color: rgba(255,255,255,0.55);
-  margin-top: 1.5rem;
-  max-width: 480px;
-  line-height: 1.6;
-  animation: fadeUp 0.8s var(--ease) 0.3s both;
-}
+    .hero-h1 .accent {
+      color: var(--red);
+      display: block;
+    }
 
-.hero-actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2.5rem;
-  flex-wrap: wrap;
-  animation: fadeUp 0.8s var(--ease) 0.4s both;
-}
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: rgba(255, 255, 255, 0.55);
+      margin-top: 1.5rem;
+      max-width: 480px;
+      line-height: 1.6;
+      animation: fadeUp 0.8s var(--ease) 0.3s both;
+    }
 
-.btn-hero-primary {
-  background: var(--red);
-  color: var(--white);
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  transition: all 0.2s var(--ease);
-  box-shadow: 0 0 30px rgba(204,55,56,0.4);
-}
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.8s var(--ease) 0.4s both;
+    }
 
-.btn-hero-primary:hover {
-  background: var(--red-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 0 40px rgba(204,55,56,0.6);
-}
+    .btn-hero-primary {
+      background: var(--red);
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      transition: all 0.2s var(--ease);
+      box-shadow: 0 0 30px rgba(204, 55, 56, 0.4);
+    }
 
-.btn-hero-ghost {
-  background: transparent;
-  color: var(--white);
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  border: 1.5px solid rgba(255,255,255,0.25);
-  transition: all 0.2s var(--ease);
-}
+    .btn-hero-primary:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 0 40px rgba(204, 55, 56, 0.6);
+    }
 
-.btn-hero-ghost:hover {
-  border-color: rgba(255,255,255,0.6);
-  background: rgba(255,255,255,0.06);
-}
+    .btn-hero-ghost {
+      background: transparent;
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      transition: all 0.2s var(--ease);
+    }
 
-.hero-stats {
-  display: flex;
-  gap: 2.5rem;
-  margin-top: 4rem;
-  animation: fadeUp 0.8s var(--ease) 0.5s both;
-}
+    .btn-hero-ghost:hover {
+      border-color: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.06);
+    }
 
-.stat-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2.5rem;
-  color: var(--white);
-  line-height: 1;
-}
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 4rem;
+      animation: fadeUp 0.8s var(--ease) 0.5s both;
+    }
 
-.stat-num span {
-  color: var(--red);
-}
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      color: var(--white);
+      line-height: 1;
+    }
 
-.stat-label {
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.45);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-top: 4px;
-}
+    .stat-num span {
+      color: var(--red);
+    }
 
-.hero-scroll {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  animation: bounce 2s infinite;
-  opacity: 0.4;
-}
+    .stat-label {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.45);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
 
-.hero-scroll span {
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      animation: bounce 2s infinite;
+      opacity: 0.4;
+    }
 
-.hero-scroll svg { width: 20px; height: 20px; }
+    .hero-scroll span {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
 
-@keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(8px); }
-}
+    .hero-scroll svg {
+      width: 20px;
+      height: 20px;
+    }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    @keyframes bounce {
 
-/* ══════════════════════════════════════════
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(8px);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ══════════════════════════════════════════
    MODALIDADES
 ══════════════════════════════════════════ */
-.section {
-  padding: 6rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
+    .section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-.section-tag {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--red);
-  margin-bottom: 0.8rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+    .section-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-.section-tag::before {
-  content: '';
-  display: block;
-  width: 20px;
-  height: 2px;
-  background: var(--red);
-}
+    .section-tag::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--red);
+    }
 
-.section-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  line-height: 0.95;
-  letter-spacing: 0.02em;
-  margin-bottom: 3rem;
-}
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      margin-bottom: 3rem;
+    }
 
-.modalidades-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5px;
-  background: rgba(255,255,255,0.06);
-  border-radius: 20px;
-  overflow: hidden;
-}
+    .modalidades-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      overflow: hidden;
+    }
 
-.modalidade-card {
-  background: var(--blue-mid);
-  padding: 3rem 2.5rem;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.3s var(--ease);
-  cursor: default;
-}
+    .modalidade-card {
+      background: var(--blue-mid);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s var(--ease);
+      cursor: default;
+    }
 
-.modalidade-card:hover { background: var(--blue-light); }
+    .modalidade-card:hover {
+      background: var(--blue-light);
+    }
 
-.modalidade-card::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0;
-  width: 100%;
-  height: 3px;
-  background: var(--red);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s var(--ease);
-}
+    .modalidade-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s var(--ease);
+    }
 
-.modalidade-card:hover::after { transform: scaleX(1); }
+    .modalidade-card:hover::after {
+      transform: scaleX(1);
+    }
 
-.modalidade-icon {
-  font-size: 3rem;
-  margin-bottom: 1.2rem;
-}
+    .modalidade-icon {
+      font-size: 3rem;
+      margin-bottom: 1.2rem;
+    }
 
-.modalidade-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2.2rem;
-  letter-spacing: 0.04em;
-  margin-bottom: 0.8rem;
-}
+    .modalidade-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.8rem;
+    }
 
-.modalidade-desc {
-  font-size: 0.9rem;
-  color: rgba(255,255,255,0.55);
-  line-height: 1.7;
-  max-width: 340px;
-}
+    .modalidade-desc {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.7;
+      max-width: 340px;
+    }
 
-.modalidade-horarios {
-  margin-top: 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
+    .modalidade-horarios {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
 
-.horario-tag {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  padding: 4px 10px;
-  border-radius: 4px;
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.7);
-}
+    .horario-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.7);
+    }
 
-.modalidade-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 2rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--red-glow);
-  transition: gap 0.2s;
-}
+    .modalidade-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--red-glow);
+      transition: gap 0.2s;
+    }
 
-.modalidade-cta:hover { gap: 10px; }
+    .modalidade-cta:hover {
+      gap: 10px;
+    }
 
-/* ══════════════════════════════════════════
+    /* ══════════════════════════════════════════
    PLANOS
 ══════════════════════════════════════════ */
-.planos-section {
-  background: var(--cream);
-  color: var(--text);
-  padding: 6rem 2rem;
-}
+    .planos-section {
+      background: var(--cream);
+      color: var(--text);
+      padding: 6rem 2rem;
+    }
 
-.planos-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-}
+    .planos-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-.planos-section .section-tag { color: var(--red); }
-.planos-section .section-tag::before { background: var(--red); }
-.planos-section .section-title { color: var(--blue); }
+    .planos-section .section-tag {
+      color: var(--red);
+    }
 
-.planos-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 2.5rem;
-}
+    .planos-section .section-tag::before {
+      background: var(--red);
+    }
 
-.plano-tab {
-  background: transparent;
-  border: 1.5px solid var(--gray-light);
-  color: var(--gray);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 0.6rem 1.4rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s var(--ease);
-}
+    .planos-section .section-title {
+      color: var(--blue);
+    }
 
-.plano-tab.active {
-  background: var(--blue);
-  border-color: var(--blue);
-  color: var(--white);
-}
+    .planos-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 2.5rem;
+    }
 
-.planos-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
+    .plano-tab {
+      background: transparent;
+      border: 1.5px solid var(--gray-light);
+      color: var(--gray);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.4rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s var(--ease);
+    }
 
-.plano-card {
-  background: var(--white);
-  border: 1.5px solid var(--gray-light);
-  border-radius: 16px;
-  padding: 2rem 1.5rem;
-  position: relative;
-  transition: all 0.3s var(--ease);
-}
+    .plano-tab.active {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: var(--white);
+    }
 
-.plano-card:hover {
-  border-color: var(--blue);
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(13,31,60,0.12);
-}
+    .planos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
 
-.plano-card.destaque {
-  border-color: var(--red);
-  background: var(--blue);
-  color: var(--white);
-}
+    .plano-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-light);
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      position: relative;
+      transition: all 0.3s var(--ease);
+    }
 
-.plano-badge {
-  position: absolute;
-  top: -12px; right: 1.2rem;
-  background: var(--red);
-  color: var(--white);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 4px;
-}
+    .plano-card:hover {
+      border-color: var(--blue);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(13, 31, 60, 0.12);
+    }
 
-.plano-nome {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.6rem;
-  letter-spacing: 0.06em;
-  margin-bottom: 0.3rem;
-  color: var(--blue);
-}
+    .plano-card.destaque {
+      border-color: var(--red);
+      background: var(--blue);
+      color: var(--white);
+    }
 
-.plano-card.destaque .plano-nome { color: var(--white); }
+    .plano-badge {
+      position: absolute;
+      top: -12px;
+      right: 1.2rem;
+      background: var(--red);
+      color: var(--white);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
 
-.plano-periodo {
-  font-size: 0.75rem;
-  color: var(--gray);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 1.5rem;
-}
+    .plano-nome {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.3rem;
+      color: var(--blue);
+    }
 
-.plano-card.destaque .plano-periodo { color: rgba(255,255,255,0.5); }
+    .plano-card.destaque .plano-nome {
+      color: var(--white);
+    }
 
-.plano-preco-big {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 3.5rem;
-  line-height: 1;
-  color: var(--blue);
-  letter-spacing: 0.02em;
-}
+    .plano-periodo {
+      font-size: 0.75rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.5rem;
+    }
 
-.plano-card.destaque .plano-preco-big { color: var(--white); }
+    .plano-card.destaque .plano-periodo {
+      color: rgba(255, 255, 255, 0.5);
+    }
 
-.plano-preco-big span {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 500;
-  vertical-align: super;
-  margin-right: 2px;
-}
+    .plano-preco-big {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      line-height: 1;
+      color: var(--blue);
+      letter-spacing: 0.02em;
+    }
 
-.plano-parcela {
-  font-size: 0.78rem;
-  color: var(--gray);
-  margin-top: 4px;
-  margin-bottom: 1.5rem;
-}
+    .plano-card.destaque .plano-preco-big {
+      color: var(--white);
+    }
 
-.plano-card.destaque .plano-parcela { color: rgba(255,255,255,0.5); }
+    .plano-preco-big span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      vertical-align: super;
+      margin-right: 2px;
+    }
 
-.plano-divider {
-  height: 1px;
-  background: var(--gray-light);
-  margin: 1.5rem 0;
-}
+    .plano-parcela {
+      font-size: 0.78rem;
+      color: var(--gray);
+      margin-top: 4px;
+      margin-bottom: 1.5rem;
+    }
 
-.plano-card.destaque .plano-divider { background: rgba(255,255,255,0.12); }
+    .plano-card.destaque .plano-parcela {
+      color: rgba(255, 255, 255, 0.5);
+    }
 
-.plano-features {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 1.8rem;
-}
+    .plano-divider {
+      height: 1px;
+      background: var(--gray-light);
+      margin: 1.5rem 0;
+    }
 
-.plano-features li {
-  font-size: 0.85rem;
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+    .plano-card.destaque .plano-divider {
+      background: rgba(255, 255, 255, 0.12);
+    }
 
-.plano-card.destaque .plano-features li { color: rgba(255,255,255,0.8); }
+    .plano-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 1.8rem;
+    }
 
-.plano-features li::before {
-  content: '✓';
-  color: var(--red);
-  font-weight: 700;
-  flex-shrink: 0;
-}
+    .plano-features li {
+      font-size: 0.85rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-.btn-plano {
-  display: block;
-  width: 100%;
-  text-align: center;
-  padding: 0.85rem;
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transition: all 0.2s var(--ease);
-  background: var(--blue);
-  color: var(--white);
-}
+    .plano-card.destaque .plano-features li {
+      color: rgba(255, 255, 255, 0.8);
+    }
 
-.btn-plano:hover { background: var(--blue-light); }
-.plano-card.destaque .btn-plano { background: var(--red); }
-.plano-card.destaque .btn-plano:hover { background: var(--red-dark); }
+    .plano-features li::before {
+      content: '✓';
+      color: var(--red);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
 
-/* ══════════════════════════════════════════
+    .btn-plano {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 0.85rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: all 0.2s var(--ease);
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    .btn-plano:hover {
+      background: var(--blue-light);
+    }
+
+    .plano-card.destaque .btn-plano {
+      background: var(--red);
+    }
+
+    .plano-card.destaque .btn-plano:hover {
+      background: var(--red-dark);
+    }
+
+    /* ══════════════════════════════════════════
    UNIDADES
 ══════════════════════════════════════════ */
-.unidades-section {
-  padding: 6rem 2rem;
-  background: var(--blue);
-}
+    .unidades-section {
+      padding: 6rem 2rem;
+      background: var(--blue);
+    }
 
-.unidades-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-}
+    .unidades-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-.unidades-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-top: 3rem;
-}
+    .unidades-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
 
-.unidade-card {
-  background: var(--blue-mid);
-  border-radius: 20px;
-  padding: 2.5rem;
-  border: 1px solid rgba(255,255,255,0.07);
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.3s;
-}
+    .unidade-card {
+      background: var(--blue-mid);
+      border-radius: 20px;
+      padding: 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
 
-.unidade-card:hover { border-color: rgba(204,55,56,0.4); }
+    .unidade-card:hover {
+      border-color: rgba(204, 55, 56, 0.4);
+    }
 
-.unidade-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--red);
-}
+    .unidade-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--red);
+    }
 
-.unidade-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 5rem;
-  color: rgba(255,255,255,0.04);
-  position: absolute;
-  top: 1rem; right: 1.5rem;
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
+    .unidade-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5rem;
+      color: rgba(255, 255, 255, 0.04);
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
 
-.unidade-nome {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2rem;
-  letter-spacing: 0.04em;
-  margin-bottom: 0.3rem;
-}
+    .unidade-nome {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.3rem;
+    }
 
-.unidade-bairro {
-  font-size: 0.75rem;
-  color: var(--red-glow);
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 1.5rem;
-}
+    .unidade-bairro {
+      font-size: 0.75rem;
+      color: var(--red-glow);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
 
-.unidade-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  margin-bottom: 2rem;
-}
+    .unidade-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
 
-.unidade-info-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 0.88rem;
-  color: rgba(255,255,255,0.6);
-  line-height: 1.4;
-}
+    .unidade-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.4;
+    }
 
-.unidade-info-item strong { color: var(--white); }
+    .unidade-info-item strong {
+      color: var(--white);
+    }
 
-.unidade-icon {
-  flex-shrink: 0;
-  font-size: 1rem;
-  margin-top: 1px;
-}
+    .unidade-icon {
+      flex-shrink: 0;
+      font-size: 1rem;
+      margin-top: 1px;
+    }
 
-.btn-unidade-whats {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #25D366;
-  color: var(--white);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 0.7rem 1.4rem;
-  border-radius: 8px;
-  transition: all 0.2s var(--ease);
-}
+    .btn-unidade-whats {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #25D366;
+      color: var(--white);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
+      transition: all 0.2s var(--ease);
+    }
 
-.btn-unidade-whats:hover {
-  background: #1da851;
-  transform: translateY(-2px);
-}
+    .btn-unidade-whats:hover {
+      background: #1da851;
+      transform: translateY(-2px);
+    }
 
-/* ══════════════════════════════════════════
+    /* ══════════════════════════════════════════
    CTA BANNER
 ══════════════════════════════════════════ */
-.cta-banner {
-  background: var(--red);
-  padding: 5rem 2rem;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
+    .cta-banner {
+      background: var(--red);
+      padding: 5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-.cta-banner::before {
-  content: 'BELFORT';
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 20rem;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: rgba(0,0,0,0.08);
-  white-space: nowrap;
-  letter-spacing: 0.04em;
-  pointer-events: none;
-}
+    .cta-banner::before {
+      content: 'BELFORT';
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: rgba(0, 0, 0, 0.08);
+      white-space: nowrap;
+      letter-spacing: 0.04em;
+      pointer-events: none;
+    }
 
-.cta-banner-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  letter-spacing: 0.03em;
-  margin-bottom: 1rem;
-  position: relative;
-}
+    .cta-banner-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      letter-spacing: 0.03em;
+      margin-bottom: 1rem;
+      position: relative;
+    }
 
-.cta-banner-sub {
-  font-size: 1rem;
-  color: rgba(255,255,255,0.75);
-  margin-bottom: 2.5rem;
-  position: relative;
-}
+    .cta-banner-sub {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
 
-.cta-banner-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  position: relative;
-}
+    .cta-banner-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
 
-.btn-cta-white {
-  background: var(--white);
-  color: var(--red);
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  transition: all 0.2s var(--ease);
-}
+    .btn-cta-white {
+      background: var(--white);
+      color: var(--red);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      transition: all 0.2s var(--ease);
+    }
 
-.btn-cta-white:hover {
-  background: var(--cream);
-  transform: translateY(-2px);
-}
+    .btn-cta-white:hover {
+      background: var(--cream);
+      transform: translateY(-2px);
+    }
 
-.btn-cta-outline {
-  background: transparent;
-  color: var(--white);
-  border: 1.5px solid rgba(255,255,255,0.5);
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  transition: all 0.2s var(--ease);
-}
+    .btn-cta-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      transition: all 0.2s var(--ease);
+    }
 
-.btn-cta-outline:hover {
-  border-color: var(--white);
-  background: rgba(255,255,255,0.1);
-}
+    .btn-cta-outline:hover {
+      border-color: var(--white);
+      background: rgba(255, 255, 255, 0.1);
+    }
 
-/* ══════════════════════════════════════════
+    /* ══════════════════════════════════════════
    FOOTER
 ══════════════════════════════════════════ */
-footer {
-  background: #080F1C;
-  padding: 3rem 2rem;
-}
+    footer {
+      background: #080F1C;
+      padding: 3rem 2rem;
+    }
 
-.footer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-}
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
 
-.footer-logo img { height: 28px; }
+    .footer-logo img {
+      height: 28px;
+    }
 
-.footer-copy {
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.3);
-}
+    .footer-copy {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.3);
+    }
 
-.footer-socials {
-  display: flex;
-  gap: 1rem;
-}
+    .footer-socials {
+      display: flex;
+      gap: 1rem;
+    }
 
-.footer-socials a {
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.4);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  transition: color 0.2s;
-}
+    .footer-socials a {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
 
-.footer-socials a:hover { color: var(--white); }
+    .footer-socials a:hover {
+      color: var(--white);
+    }
 
-/* ══════════════════════════════════════════
+    /* ══════════════════════════════════════════
    MOBILE NAV
 ══════════════════════════════════════════ */
-.mobile-menu {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 99;
-  background: var(--blue);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-}
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 99;
+      background: var(--blue);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
 
-.mobile-menu.open { display: flex; }
+    .mobile-menu.open {
+      display: flex;
+    }
 
-.mobile-menu a {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2.5rem;
-  letter-spacing: 0.06em;
-  color: var(--white);
-  transition: color 0.2s;
-}
+    .mobile-menu a {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      transition: color 0.2s;
+    }
 
-.mobile-menu a:hover { color: var(--red); }
+    .mobile-menu a:hover {
+      color: var(--red);
+    }
 
-.mobile-close {
-  position: absolute;
-  top: 1.5rem; right: 2rem;
-  font-size: 2rem;
-  cursor: pointer;
-  color: var(--white);
-}
+    .mobile-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      font-size: 2rem;
+      cursor: pointer;
+      color: var(--white);
+    }
 
-/* ══════════════════════════════════════════
+    /* ══════════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════════ */
-@media (max-width: 768px) {
-  .nav-links { display: none; }
-  .nav-hamburger { display: flex; }
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
 
-  .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
-  .modalidades-grid { grid-template-columns: 1fr; }
-  .planos-grid { grid-template-columns: 1fr; }
-  .unidades-grid { grid-template-columns: 1fr; }
+      .nav-hamburger {
+        display: flex;
+      }
 
-  .footer-inner { flex-direction: column; text-align: center; }
-}
+      .hero-stats {
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
 
-/* ══════════════════════════════════════════
+      .modalidades-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .planos-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .unidades-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* ══════════════════════════════════════════
    PLANOS PANEL (show/hide)
 ══════════════════════════════════════════ */
-.planos-panel { display: none; }
-.planos-panel.active { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .planos-panel {
+      display: none;
+    }
 
-@media (max-width: 768px) {
-  .planos-panel.active { grid-template-columns: 1fr; }
-}
+    .planos-panel.active {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
 
-/* ══════════════════════════════════════════
+    @media (max-width: 768px) {
+      .planos-panel.active {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ══════════════════════════════════════════
    WHATSAPP FLOAT
 ══════════════════════════════════════════ */
-.whats-float {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  z-index: 50;
-  width: 52px;
-  height: 52px;
-  background: #25D366;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
-  transition: transform 0.2s var(--ease);
-  font-size: 1.5rem;
-}
+    .whats-float {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 50;
+      width: 52px;
+      height: 52px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+      transition: transform 0.2s var(--ease);
+      font-size: 1.5rem;
+    }
 
-.whats-float:hover { transform: scale(1.1); }
-
-</style>
+    .whats-float:hover {
+      transform: scale(1.1);
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav id="nav">
-  <a href="/" class="nav-logo">
-    <img src="/images/logo.png" alt="Academia Belfort">
-  </a>
-  <ul class="nav-links">
-    <li><a href="#modalidades">Modalidades</a></li>
-    <li><a href="#planos">Planos</a></li>
-    <li><a href="#unidades">Unidades</a></li>
-    <li><a href="/cortesia/cortesia.html" class="nav-cta">Aula Grátis</a></li>
-  </ul>
-  <div class="nav-hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
-</nav>
-
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu">
-  <span class="mobile-close" onclick="toggleMenu()">✕</span>
-  <a href="#modalidades" onclick="toggleMenu()">Modalidades</a>
-  <a href="#planos" onclick="toggleMenu()">Planos</a>
-  <a href="#unidades" onclick="toggleMenu()">Unidades</a>
-  <a href="/cortesia/cortesia.html" style="color:var(--red)">Aula Grátis</a>
-</div>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-diagonal"></div>
-  <div class="hero-grid"></div>
-
-  <div class="hero-content">
-    <div class="hero-tag">Academia em Belém · Pará</div>
-
-    <h1 class="hero-h1">
-      Seu corpo<br>
-      <span class="accent">começa aqui.</span>
-    </h1>
-
-    <p class="hero-sub">
-      Musculação e Cross Training com estrutura de ponta, professores qualificados e duas unidades para você.
-    </p>
-
-    <div class="hero-actions">
-      <a href="/cortesia/cortesia.html" class="btn-hero-primary">Agendar aula grátis</a>
-      <a href="#planos" class="btn-hero-ghost">Ver planos</a>
-    </div>
-
-    <div class="hero-stats">
-      <div>
-        <div class="stat-num">2<span>+</span></div>
-        <div class="stat-label">Unidades</div>
-      </div>
-      <div>
-        <div class="stat-num">100<span>%</span></div>
-        <div class="stat-label">Resultado</div>
-      </div>
-      <div>
-        <div class="stat-num">6<span>h</span></div>
-        <div class="stat-label">Primeira aula às</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="hero-scroll">
-    <span>scroll</span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M12 5v14M5 12l7 7 7-7"/>
-    </svg>
-  </div>
-</section>
-
-<!-- MODALIDADES -->
-<section id="modalidades" style="background: var(--blue); padding: 6rem 2rem;">
-  <div style="max-width:1200px; margin:0 auto;">
-    <div class="section-tag">O que oferecemos</div>
-    <h2 class="section-title">Nossas<br>modalidades</h2>
-
-    <div class="modalidades-grid">
-      <!-- Musculação -->
-      <div class="modalidade-card">
-        <div class="modalidade-icon">🏋️</div>
-        <div class="modalidade-name">Musculação</div>
-        <p class="modalidade-desc">Treino com pesos para ganho de massa, emagrecimento e condicionamento. Horário livre para você treinar no seu ritmo, de segunda a sábado.</p>
-        <div class="modalidade-horarios">
-          <span class="horario-tag">Seg–Sex · 07h–17h</span>
-          <span class="horario-tag">Sáb · 09h–14h</span>
-          <span class="horario-tag">Horário livre</span>
-        </div>
-        <a href="/cortesia/cortesia.html" class="modalidade-cta">Agendar aula grátis →</a>
-      </div>
-
-      <!-- Cross Training -->
-      <div class="modalidade-card">
-        <div class="modalidade-icon">⚡</div>
-        <div class="modalidade-name">Cross Training</div>
-        <p class="modalidade-desc">Treino funcional de alta intensidade com aulas em grupo. 3 aulas consecutivas na aula de cortesia para você sentir a energia da turma.</p>
-        <div class="modalidade-horarios">
-          <span class="horario-tag">06:00</span>
-          <span class="horario-tag">07:00</span>
-          <span class="horario-tag">08:00</span>
-          <span class="horario-tag">10:00 (Sáb)</span>
-          <span class="horario-tag">18:30</span>
-          <span class="horario-tag">19:30</span>
-          <span class="horario-tag">20:30</span>
-        </div>
-        <a href="/cortesia/cortesia.html" class="modalidade-cta">Agendar aula grátis →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PLANOS -->
-<section id="planos" class="planos-section">
-  <div class="planos-inner">
-    <div class="section-tag">Investimento</div>
-    <h2 class="section-title" style="color:var(--blue)">Escolha seu<br>plano</h2>
-
-    <div class="planos-tabs">
-      <button class="plano-tab active" onclick="showPlanos('musculacao', this)">🏋️ Musculação</button>
-      <button class="plano-tab" onclick="showPlanos('cross', this)">⚡ Cross Training</button>
-    </div>
-
-    <!-- Musculação -->
-    <div class="planos-panel active" id="panel-musculacao">
-      <div class="plano-card">
-        <div class="plano-nome">Mensal</div>
-        <div class="plano-periodo">Pagamento único</div>
-        <div class="plano-preco-big"><span>R$</span>110</div>
-        <div class="plano-parcela">à vista</div>
-        <div class="plano-divider"></div>
-        <ul class="plano-features">
-          <li>Acesso à musculação</li>
-          <li>Horário livre</li>
-          <li>Seg a Sábado</li>
-        </ul>
-        <a href="/matricula/matricula.html" class="btn-plano">Fazer pré-cadastro</a>
-      </div>
-
-      <div class="plano-card destaque">
-        <div class="plano-badge">Mais popular</div>
-        <div class="plano-nome">Trimestral</div>
-        <div class="plano-periodo">3 meses</div>
-        <div class="plano-preco-big"><span>R$</span>315</div>
-        <div class="plano-parcela">ou 3x de R$ 105,00</div>
-        <div class="plano-divider"></div>
-        <ul class="plano-features">
-          <li>Acesso à musculação</li>
-          <li>Horário livre</li>
-          <li>Seg a Sábado</li>
-          <li>Melhor custo-benefício</li>
-        </ul>
-        <a href="/matricula/matricula.html" class="btn-plano">Fazer pré-cadastro</a>
-      </div>
-
-      <div class="plano-card">
-        <div class="plano-nome">Semestral</div>
-        <div class="plano-periodo">6 meses</div>
-        <div class="plano-preco-big"><span>R$</span>600</div>
-        <div class="plano-parcela">ou 6x de R$ 100,00</div>
-        <div class="plano-divider"></div>
-        <ul class="plano-features">
-          <li>Acesso à musculação</li>
-          <li>Horário livre</li>
-          <li>Seg a Sábado</li>
-          <li>Maior economia</li>
-        </ul>
-        <a href="/matricula/matricula.html" class="btn-plano">Fazer pré-cadastro</a>
-      </div>
-    </div>
-
-    <!-- Cross Training -->
-    <div class="planos-panel" id="panel-cross">
-      <div class="plano-card">
-        <div class="plano-nome">Mensal</div>
-        <div class="plano-periodo">Pagamento único</div>
-        <div class="plano-preco-big"><span>R$</span>190</div>
-        <div class="plano-parcela">à vista</div>
-        <div class="plano-divider"></div>
-        <ul class="plano-features">
-          <li>Aulas em grupo</li>
-          <li>Todos os horários</li>
-          <li>Seg a Sábado</li>
-        </ul>
-        <a href="/matricula/matricula.html" class="btn-plano">Fazer pré-cadastro</a>
-      </div>
-
-      <div class="plano-card destaque">
-        <div class="plano-badge">Mais popular</div>
-        <div class="plano-nome">Trimestral</div>
-        <div class="plano-periodo">3 meses</div>
-        <div class="plano-preco-big"><span>R$</span>510</div>
-        <div class="plano-parcela">ou 3x de R$ 170,00</div>
-        <div class="plano-divider"></div>
-        <ul class="plano-features">
-          <li>Aulas em grupo</li>
-          <li>Todos os horários</li>
-          <li>Seg a Sábado</li>
-          <li>Melhor custo-benefício</li>
-        </ul>
-        <a href="/matricula/matricula.html" class="btn-plano">Fazer pré-cadastro</a>
-      </div>
-
-      <div class="plano-card">
-        <div class="plano-nome">Semestral</div>
-        <div class="plano-periodo">6 meses</div>
-        <div class="plano-preco-big"><span>R$</span>900</div>
-        <div class="plano-parcela">ou 6x de R$ 150,00</div>
-        <div class="plano-divider"></div>
-        <ul class="plano-features">
-          <li>Aulas em grupo</li>
-          <li>Todos os horários</li>
-          <li>Seg a Sábado</li>
-          <li>Maior economia</li>
-        </ul>
-        <a href="/matricula/matricula.html" class="btn-plano">Fazer pré-cadastro</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- UNIDADES -->
-<section id="unidades" class="unidades-section">
-  <div class="unidades-inner">
-    <div class="section-tag">Onde estamos</div>
-    <h2 class="section-title">Nossas unidades</h2>
-
-    <div class="unidades-grid">
-      <div class="unidade-card">
-        <div class="unidade-num">01</div>
-        <div class="unidade-nome">Belfort Telégrafo</div>
-        <div class="unidade-bairro">Bairro do Telégrafo</div>
-        <div class="unidade-info">
-          <div class="unidade-info-item">
-            <span class="unidade-icon">📍</span>
-            <span>Endereço da unidade Telégrafo, Belém — PA</span>
-          </div>
-          <div class="unidade-info-item">
-            <span class="unidade-icon">🕐</span>
-            <div>
-              <strong>Seg–Sex:</strong> 07h às 17h<br>
-              <strong>Sábado:</strong> 09h às 14h
-            </div>
-          </div>
-          <div class="unidade-info-item">
-            <span class="unidade-icon">⚡</span>
-            <span>Musculação · Cross Training</span>
-          </div>
-        </div>
-        <a href="https://wa.me/5591984862479" target="_blank" class="btn-unidade-whats">
-          💬 WhatsApp
-        </a>
-      </div>
-
-      <div class="unidade-card">
-        <div class="unidade-num">02</div>
-        <div class="unidade-nome">Belfort Sacramenta</div>
-        <div class="unidade-bairro">Bairro da Sacramenta</div>
-        <div class="unidade-info">
-          <div class="unidade-info-item">
-            <span class="unidade-icon">📍</span>
-            <span>Endereço da unidade Sacramenta, Belém — PA</span>
-          </div>
-          <div class="unidade-info-item">
-            <span class="unidade-icon">🕐</span>
-            <div>
-              <strong>Seg–Sex:</strong> 07h às 17h<br>
-              <strong>Sábado:</strong> 09h às 14h
-            </div>
-          </div>
-          <div class="unidade-info-item">
-            <span class="unidade-icon">⚡</span>
-            <span>Musculação · Cross Training</span>
-          </div>
-        </div>
-        <a href="https://wa.me/5591984862479" target="_blank" class="btn-unidade-whats">
-          💬 WhatsApp
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA BANNER -->
-<section class="cta-banner">
-  <h2 class="cta-banner-title">Comece hoje.<br>Sem desculpas.</h2>
-  <p class="cta-banner-sub">Agende sua aula de cortesia gratuita e venha sentir a diferença.</p>
-  <div class="cta-banner-actions">
-    <a href="/cortesia/cortesia.html" class="btn-cta-white">Agendar aula grátis</a>
-    <a href="/matricula/matricula.html" class="btn-cta-outline">Fazer pré-cadastro</a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-logo">
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="/" class="nav-logo">
       <img src="/images/logo.png" alt="Academia Belfort">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#modalidades">Modalidades</a></li>
+      <li><a href="#planos">Planos</a></li>
+      <li><a href="#unidades">Unidades</a></li>
+      <li><a href="/cortesia/cortesia.html" class="nav-cta">Aula Grátis</a></li>
+    </ul>
+    <div class="nav-hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
     </div>
-    <div class="footer-copy">Academia Belfort © 2025 · Belém, PA</div>
-    <div class="footer-socials">
-      <a href="#" target="_blank">Instagram</a>
-      <a href="#" target="_blank">Facebook</a>
-    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <span class="mobile-close" onclick="toggleMenu()">✕</span>
+    <a href="#modalidades" onclick="toggleMenu()">Modalidades</a>
+    <a href="#planos" onclick="toggleMenu()">Planos</a>
+    <a href="#unidades" onclick="toggleMenu()">Unidades</a>
+    <a href="/cortesia/cortesia.html" style="color:var(--red)">Aula Grátis</a>
   </div>
-</footer>
 
-<!-- WHATSAPP FLOAT -->
-<a href="https://wa.me/5591984862479" target="_blank" class="whats-float" title="Fale conosco no WhatsApp">
-  💬
-</a>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-diagonal"></div>
+    <div class="hero-grid"></div>
 
-<script>
-// Nav scroll
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
-});
+    <div class="hero-content">
+      <div class="hero-image">
+        <img src="/images/logo.png" alt="Academia Belfort">
+      </div>
 
-// Mobile menu
-function toggleMenu() {
-  document.getElementById('mobileMenu').classList.toggle('open');
-}
+      <h1 class="hero-h1">
+        Seu corpo<br>
+        <span class="accent">começa aqui.</span>
+      </h1>
 
-// Planos tabs
-function showPlanos(mod, btn) {
-  document.querySelectorAll('.planos-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.plano-tab').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + mod).classList.add('active');
-  btn.classList.add('active');
-}
+      <p class="hero-sub">
+        Musculação e Cross Training com estrutura de ponta, professores qualificados e duas unidades para você.
+      </p>
 
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      <div class="hero-actions">
+        <a href="/cortesia/cortesia.html" class="btn-hero-primary">Agendar aula grátis</a>
+        <a href="#planos" class="btn-hero-ghost">Ver planos</a>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">2<span>+</span></div>
+          <div class="stat-label">Unidades</div>
+        </div>
+        <div>
+          <div class="stat-num">100<span>%</span></div>
+          <div class="stat-label">Resultado</div>
+        </div>
+        <div>
+          <div class="stat-num">6<span>h</span></div>
+          <div class="stat-label">Primeira aula às</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <span>scroll</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5v14M5 12l7 7 7-7" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- MODALIDADES -->
+  <section id="modalidades" style="background: var(--blue); padding: 6rem 2rem;">
+    <section class="coletivas-section">
+      <div class="coletivas-inner">
+        <div class="section-tag">Mais de 70 aulas por mês</div>
+        <h2 class="section-title">Aulas coletivas</h2>
+
+        <div class="coletivas-grid">
+          <div class="coletiva-card col-fitdance">
+            <div class="coletiva-icon">💃</div>
+            <div class="coletiva-nome">Fit Dance</div>
+            <div class="coletiva-desc">Dança fitness divertida e queima calorias</div>
+          </div>
+          <div class="coletiva-card col-pilates">
+            <div class="coletiva-icon">🧘</div>
+            <div class="coletiva-nome">Pilates de Solo</div>
+            <div class="coletiva-desc">Fortalecimento e flexibilidade</div>
+          </div>
+          <div class="coletiva-card col-boxe">
+            <div class="coletiva-icon">🥊</div>
+            <div class="coletiva-nome">Boxe</div>
+            <div class="coletiva-desc">Técnica, condicionamento e autodefesa</div>
+          </div>
+          <div class="coletiva-card col-muaythai">
+            <div class="coletiva-icon">🦵</div>
+            <div class="coletiva-nome">Muay Thai</div>
+            <div class="coletiva-desc">Arte marcial completa e eficiente</div>
+          </div>
+          <div class="coletiva-card col-ritmos">
+            <div class="coletiva-icon">🎵</div>
+            <div class="coletiva-nome">Ritmos</div>
+            <div class="coletiva-desc">Aeróbico com ritmos e muita energia</div>
+          </div>
+          <div class="coletiva-card col-ritbox">
+            <div class="coletiva-icon">⚡</div>
+            <div class="coletiva-nome">Ritbox</div>
+            <div class="coletiva-desc">Boxe com ritmo e intensidade</div>
+          </div>
+          <div class="coletiva-card col-funcional">
+            <div class="coletiva-icon">🏃</div>
+            <div class="coletiva-nome">Funcional</div>
+            <div class="coletiva-desc">Treino completo com o peso do corpo</div>
+          </div>
+          <div class="coletiva-card col-danca">
+            <div class="coletiva-icon">🕺</div>
+            <div class="coletiva-nome">Dança de Salão</div>
+            <div class="coletiva-desc">Elegância, ritmo e socialização</div>
+          </div>
+          <div class="coletiva-card col-corrida">
+            <div class="coletiva-icon">👟</div>
+            <div class="coletiva-nome">Corrida de Rua</div>
+            <div class="coletiva-desc">Preparação para provas e condicionamento</div>
+          </div>
+          <div class="coletiva-card col-jump">
+            <div class="coletiva-icon">🦘</div>
+            <div class="coletiva-nome">Jump</div>
+            <div class="coletiva-desc">Mini trampolim para queimar calorias</div>
+          </div>
+          <div class="coletiva-card col-powermix">
+            <div class="coletiva-icon">💥</div>
+            <div class="coletiva-nome">Power Mix</div>
+            <div class="coletiva-desc">Combinação de musculação e cardio</div>
+          </div>
+        </div>
+
+        <button class="btn-ver-grade" onclick="abrirModal()">
+          📅 Ver grade completa de horários
+        </button>
+      </div>
+    </section>
+
+    <!-- MODAL GRADE -->
+    <div class="modal-overlay" id="modalGrade" onclick="fecharModalFora(event)">
+      <div class="modal-box">
+        <div class="modal-header">
+          <div class="modal-title">Grade de Horários</div>
+          <button class="modal-close" onclick="fecharModal()">✕</button>
+        </div>
+
+        <div class="modal-tabs">
+          <button class="modal-tab active" onclick="showGrade('telegrafo', this)">📍 Telégrafo</button>
+          <button class="modal-tab" onclick="showGrade('sacramenta', this)">📍 Sacramenta</button>
+        </div>
+
+        <div class="modal-body">
+
+          <!-- TELÉGRAFO -->
+          <div class="grade-panel active" id="grade-telegrafo">
+            <table class="grade-table">
+              <thead>
+                <tr>
+                  <th>Horário</th>
+                  <th>Segunda</th>
+                  <th>Terça</th>
+                  <th>Quarta</th>
+                  <th>Quinta</th>
+                  <th>Sexta</th>
+                  <th>Sábado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>07:00</td>
+                  <td></td>
+                  <td class="c-pilates">Pilates de Solo</td>
+                  <td></td>
+                  <td class="c-pilates">Pilates de Solo</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>08:00</td>
+                  <td class="c-ritbox">Ritbox</td>
+                  <td></td>
+                  <td class="c-ritmos">Ritmos</td>
+                  <td></td>
+                  <td class="c-ritmos">Ritmos</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>08:30</td>
+                  <td></td>
+                  <td class="c-ritmos">Ritmos</td>
+                  <td></td>
+                  <td class="c-ritmos">Ritmos</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>09:00</td>
+                  <td></td>
+                  <td></td>
+                  <td class="c-boxe">Boxe</td>
+                  <td></td>
+                  <td class="c-boxe">Boxe</td>
+                  <td class="c-boxe">Boxe</td>
+                </tr>
+                <tr>
+                  <td>09:30</td>
+                  <td></td>
+                  <td class="c-pilates">Pilates de Solo</td>
+                  <td></td>
+                  <td class="c-pilates">Pilates de Solo</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>16:00</td>
+                  <td></td>
+                  <td class="c-fitdance">Fit Dance</td>
+                  <td></td>
+                  <td class="c-fitdance">Fit Dance</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>17:00</td>
+                  <td></td>
+                  <td class="c-powermix">Power Mix</td>
+                  <td></td>
+                  <td class="c-ritbox">Ritbox</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>18:30</td>
+                  <td class="c-pilates">Pilates de Solo</td>
+                  <td></td>
+                  <td class="c-pilates">Pilates de Solo</td>
+                  <td></td>
+                  <td class="c-muaythai">Muay Thai</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>19:00</td>
+                  <td></td>
+                  <td class="c-muaythai">Muay Thai</td>
+                  <td></td>
+                  <td class="c-muaythai">Muay Thai</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>19:30</td>
+                  <td class="c-fitdance">Fit Dance</td>
+                  <td></td>
+                  <td class="c-fitdance">Fit Dance</td>
+                  <td></td>
+                  <td class="c-fitdance">Fit Dance</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>20:00</td>
+                  <td class="c-corrida">Corrida de Rua</td>
+                  <td class="c-funcional">Funcional</td>
+                  <td></td>
+                  <td class="c-funcional">Funcional</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>20:40</td>
+                  <td class="c-danca">Dança de Salão</td>
+                  <td></td>
+                  <td class="c-danca">Dança de Salão</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- SACRAMENTA -->
+          <div class="grade-panel" id="grade-sacramenta">
+            <table class="grade-table">
+              <thead>
+                <tr>
+                  <th>Horário</th>
+                  <th>Segunda</th>
+                  <th>Terça</th>
+                  <th>Quarta</th>
+                  <th>Quinta</th>
+                  <th>Sexta</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>07:30</td>
+                  <td></td>
+                  <td></td>
+                  <td class="c-pilates">Pilates de Solo</td>
+                  <td></td>
+                  <td class="c-pilates">Pilates de Solo</td>
+                </tr>
+                <tr>
+                  <td>08:00</td>
+                  <td></td>
+                  <td class="c-boxe">Boxe</td>
+                  <td></td>
+                  <td class="c-ritbox">Ritbox</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>08:30</td>
+                  <td></td>
+                  <td></td>
+                  <td class="c-fitdance">Fit Dance</td>
+                  <td></td>
+                  <td class="c-fitdance">Fit Dance</td>
+                </tr>
+                <tr>
+                  <td>09:00</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td class="c-boxe">Boxe</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>16:00</td>
+                  <td class="c-muaythai">Muay Thai</td>
+                  <td></td>
+                  <td class="c-muaythai">Muay Thai</td>
+                  <td></td>
+                  <td class="c-muaythai">Muay Thai</td>
+                </tr>
+                <tr>
+                  <td>18:20</td>
+                  <td class="c-fitdance">Fit Dance</td>
+                  <td></td>
+                  <td class="c-jump">Jump</td>
+                  <td></td>
+                  <td class="c-ritmos">Ritmos</td>
+                </tr>
+                <tr>
+                  <td>19:00</td>
+                  <td></td>
+                  <td class="c-ritbox">Ritbox</td>
+                  <td></td>
+                  <td class="c-ritmos">Ritmos</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>19:30</td>
+                  <td class="c-danca">Dança de Salão</td>
+                  <td></td>
+                  <td class="c-danca">Dança de Salão</td>
+                  <td></td>
+                  <td class="c-muaythai">Muay Thai</td>
+                </tr>
+                <tr>
+                  <td>20:00</td>
+                  <td></td>
+                  <td class="c-boxe">Boxe</td>
+                  <td></td>
+                  <td class="c-boxe">Boxe</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>20:30</td>
+                  <td class="c-muaythai">Muay Thai</td>
+                  <td></td>
+                  <td class="c-muaythai">Muay Thai</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1200px; margin:0 auto;">
+      <div class="section-tag">O que oferecemos</div>
+      <h2 class="section-title">Nossas<br>modalidades</h2>
+
+      <div class="modalidades-grid">
+        <!-- Musculação -->
+        <div class="modalidade-card">
+          <div class="modalidade-icon">🏋️</div>
+          <div class="modalidade-name">Musculação</div>
+          <p class="modalidade-desc">Treino com pesos para ganho de massa, emagrecimento e condicionamento. Horário
+            livre para você treinar no seu ritmo, de segunda a sábado.</p>
+          <div class="modalidade-horarios">
+            <span class="horario-tag">Seg–Sex · 07h–17h</span>
+            <span class="horario-tag">Sáb · 09h–14h</span>
+            <span class="horario-tag">Horário livre</span>
+          </div>
+          <a href="/cortesia/cortesia.html" class="modalidade-cta">Agendar aula grátis →</a>
+        </div>
+
+        <!-- Cross Training -->
+        <div class="modalidade-card">
+          <div class="modalidade-icon">⚡</div>
+          <div class="modalidade-name">Cross Training</div>
+          <p class="modalidade-desc">Treino funcional de alta intensidade com aulas em grupo. 3 aulas consecutivas na
+            aula de cortesia para você sentir a energia da turma.</p>
+          <div class="modalidade-horarios">
+            <span class="horario-tag">06:00</span>
+            <span class="horario-tag">07:00</span>
+            <span class="horario-tag">08:00</span>
+            <span class="horario-tag">10:00 (Sáb)</span>
+            <span class="horario-tag">18:30</span>
+            <span class="horario-tag">19:30</span>
+            <span class="horario-tag">20:30</span>
+          </div>
+          <a href="/cortesia/cortesia.html" class="modalidade-cta">Agendar aula grátis →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANOS -->
+  <section id="planos" class="planos-section">
+    <div class="planos-inner">
+      <div class="section-tag">Investimento</div>
+      <h2 class="section-title" style="color:var(--blue)">Escolha seu<br>plano</h2>
+
+      <div class="planos-tabs">
+        <button class="plano-tab active" onclick="showPlanos('telegrafo', this)">📍 Telégrafo</button>
+        <button class="plano-tab" onclick="showPlanos('sacramenta', this)">📍 Sacramenta</button>
+      </div>
+
+      <!-- TELÉGRAFO -->
+      <div class="planos-panel active" id="panel-telegrafo">
+
+        <div style="grid-column:1/-1; margin-bottom:0.5rem;">
+          <span
+            style="font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);">🏋️
+            Musculação</span>
+        </div>
+
+        <div class="plano-card">
+          <div class="plano-nome">Mensal</div>
+          <div class="plano-periodo">Pagamento único</div>
+          <div class="plano-preco-big"><span>R$</span>110</div>
+          <div class="plano-parcela">à vista</div>
+          <div class="plano-divider"></div>
+          <ul class="plano-features">
+            <li>Acesso à musculação</li>
+            <li>Horário livre</li>
+            <li>Seg a Sábado</li>
+          </ul>
+          <a href="/matricula/matricula.html" class="btn-plano">Fazer pré-cadastro</a>
+        </div>
+
+        <div class="plano-card destaque">
+          <div class="plano-badge">Mais popular</div>
+          <div class="plano-nome">Trimestral</div>
+          <div class="plano-periodo">3 meses</div>
+          <div class="plano-preco-big"><span>R$</span>315</div>
+          <div class="plano-parcela">ou 3x de R$ 105,00</div>
+          <div class="plano-divider"></div>
+          <ul class="plano-features">
+            <li>Acesso à musculação</li>
+            <li>Horário livre</li>
+            <li>Seg a Sábado</li>
+            <li>Melhor custo-benefício</li>
+          </ul>
+          <a href="/matricula/matricula.html" class="btn-plano">Fazer pré-cadastro</a>
+        </div>
+
+        <div class="plano-card">
+          <div class="plano-nome">Semestral</div>
+          <div class="plano-periodo">6 meses</div>
+          <div class="plano-preco-big"><span>R$</span>600</div>
+          <div class="plano-parcela">ou 6x de R$ 100,00</div>
+          <div class="plano-divider"></div>
+          <ul class="plano-features">
+            <li>Acesso à musculação</li>
+            <li>Horário livre</li>
+            <li>Seg a Sábado</li>
+            <li>Maior economia</li>
+          </ul>
+          <a href="/matricula/matricula.html" class="btn-plano">Fazer pré-cadastro</a>
+        </div>
+
+        <div
+          style="grid-column:1/-1; margin-top:1.5rem; margin-bottom:0.5rem; padding-top:1.5rem; border-top:1px solid var(--gray-light);">
+          <span
+            style="font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);">⚡
+            Cross Training</span>
+        </div>
+
+        <div class="plano-card">
+          <div class="plano-nome">Mensal</div>
+          <div class="plano-periodo">Pagamento único</div>
+          <div class="plano-preco-big"><span>R$</span>190</div>
+          <div class="plano-parcela">à vista</div>
+          <div class="plano-divider"></div>
+          <ul class="plano-features">
+            <li>Aulas em grupo</li>
+            <li>Todos os horários</li>
+            <li>Seg a Sábado</li>
+          </ul>
+          <a href="/matricula/matricula.html" class="btn-plano">Fazer pré-cadastro</a>
+        </div>
+
+        <div class="plano-card destaque">
+          <div class="plano-badge">Mais popular</div>
+          <div class="plano-nome">Trimestral</div>
+          <div class="plano-periodo">3 meses</div>
+          <div class="plano-preco-big"><span>R$</span>510</div>
+          <div class="plano-parcela">ou 3x de R$ 170,00</div>
+          <div class="plano-divider"></div>
+          <ul class="plano-features">
+            <li>Aulas em grupo</li>
+            <li>Todos os horários</li>
+            <li>Seg a Sábado</li>
+            <li>Melhor custo-benefício</li>
+          </ul>
+          <a href="/matricula/matricula.html" class="btn-plano">Fazer pré-cadastro</a>
+        </div>
+
+        <div class="plano-card">
+          <div class="plano-nome">Semestral</div>
+          <div class="plano-periodo">6 meses</div>
+          <div class="plano-preco-big"><span>R$</span>900</div>
+          <div class="plano-parcela">ou 6x de R$ 150,00</div>
+          <div class="plano-divider"></div>
+          <ul class="plano-features">
+            <li>Aulas em grupo</li>
+            <li>Todos os horários</li>
+            <li>Seg a Sábado</li>
+            <li>Maior economia</li>
+          </ul>
+          <a href="/matricula/matricula.html" class="btn-plano">Fazer pré-cadastro</a>
+        </div>
+      </div>
+
+      <!-- SACRAMENTA -->
+      <div class="planos-panel" id="panel-sacramenta" style="grid-template-columns:1fr 1fr 1fr;">
+
+        <div style="grid-column:1/-1; margin-bottom:0.5rem;">
+          <span
+            style="font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);">🏋️
+            Musculação</span>
+        </div>
+
+        <div class="plano-card destaque" style="grid-column:2/3;">
+          <div class="plano-nome">Mensal</div>
+          <div class="plano-periodo">Pagamento único</div>
+          <div class="plano-preco-big"><span>R$</span>100</div>
+          <div class="plano-parcela">à vista</div>
+          <div class="plano-divider"></div>
+          <ul class="plano-features">
+            <li>Acesso à musculação</li>
+            <li>Horário livre</li>
+            <li>+70 aulas coletivas/mês</li>
+            <li>Seg a Sábado</li>
+          </ul>
+          <a href="/matricula/matricula.html" class="btn-plano">Fazer pré-cadastro</a>
+        </div>
+
+        <div style="grid-column:1/-1; margin-top:1rem;">
+          <p style="font-size:0.8rem;color:var(--gray);text-align:center;">
+            ℹ️ A unidade Sacramenta oferece apenas o plano mensal de musculação, com bônus de mais de 70 aulas coletivas
+            mensais.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UNIDADES -->
+  <section id="unidades" class="unidades-section">
+    <div class="unidades-inner">
+      <div class="section-tag">Onde estamos</div>
+      <h2 class="section-title">Nossas unidades</h2>
+
+      <div class="unidades-grid">
+        <div class="unidade-card">
+          <div class="unidade-num">01</div>
+          <div class="unidade-nome">Belfort Telégrafo</div>
+          <div class="unidade-bairro">Bairro do Telégrafo</div>
+          <div class="unidade-info">
+            <div class="unidade-info-item">
+              <!-- <span class="unidade-icon">📍</span> -->
+              <span>Av. Sen. Lemos, 1752 - Telégrafo, Belém - PA</span>
+            </div>
+            <div class="unidade-info-item">
+              <span class="unidade-icon">🕐</span>
+              <div>
+                <strong>Seg–Sex:</strong> 07h às 17h<br>
+                <strong>Sábado:</strong> 09h às 14h
+              </div>
+            </div>
+            <div class="unidade-info-item">
+              <span class="unidade-icon">⚡</span>
+              <span>Musculação · Cross Training</span>
+            </div>
+          </div>
+          <a href="https://wa.me/5591984862479" target="_blank" class="btn-unidade-whats">
+            💬 WhatsApp
+          </a>
+        </div>
+
+        <div class="unidade-card">
+          <div class="unidade-num">02</div>
+          <div class="unidade-nome">Belfort Sacramenta</div>
+          <div class="unidade-bairro">Bairro da Sacramenta</div>
+          <div class="unidade-info">
+            <div class="unidade-info-item">
+              <!-- <span class="unidade-icon">📍</span> -->
+              <span>Av. Sen. Lemos, 2831 - Sacramenta, Belém - PA</span>
+            </div>
+            <div class="unidade-info-item">
+              <span class="unidade-icon">🕐</span>
+              <div>
+                <strong>Seg–Sex:</strong> 07h às 17h<br>
+                <strong>Sábado:</strong> 09h às 14h
+              </div>
+            </div>
+            <div class="unidade-info-item">
+              <span class="unidade-icon">⚡</span>
+              <span>Musculação · +70 aulas coletivas/mês</span>
+            </div>
+          </div>
+          <a href="https://wa.me/559133515384" target="_blank" class="btn-unidade-whats">
+            💬 WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <h2 class="cta-banner-title">Comece hoje.<br>Sem desculpas.</h2>
+    <p class="cta-banner-sub">Agende sua aula de cortesia gratuita e venha sentir a diferença.</p>
+    <div class="cta-banner-actions">
+      <a href="/cortesia/cortesia.html" class="btn-cta-white">Agendar aula grátis</a>
+      <a href="/matricula/matricula.html" class="btn-cta-outline">Fazer pré-cadastro</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="/images/logo.png" alt="Academia Belfort">
+      </div>
+      <div class="footer-copy">Academia Belfort © 2025 · Belém, PA</div>
+      <div class="footer-socials">
+        <a href="#" target="_blank">Instagram</a>
+        <a href="#" target="_blank">Facebook</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://wa.me/5591984862479" target="_blank" class="whats-float" title="Fale conosco no WhatsApp">
+    💬
+  </a>
+
+  <script>
+    // Nav scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Mobile menu
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
     }
-  });
-});
-</script>
+
+    // Planos tabs
+    function showPlanos(mod, btn) {
+      document.querySelectorAll('.planos-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.plano-tab').forEach(b => b.classList.remove('active'));
+      document.getElementById('panel-' + mod).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    function abrirModal() {
+      document.getElementById('modalGrade').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function fecharModal() {
+      document.getElementById('modalGrade').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function fecharModalFora(e) {
+      if (e.target === document.getElementById('modalGrade')) fecharModal();
+    }
+
+    function showGrade(unidade, btn) {
+      document.querySelectorAll('.grade-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.modal-tab').forEach(b => b.classList.remove('active'));
+      document.getElementById('grade-' + unidade).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // fechar com ESC
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') fecharModal();
+    });
+  </script>
 
 </body>
+
 </html>
