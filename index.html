@@ -62,7 +62,7 @@
 
     /* CARDS COLETIVAS */
     .coletivas-section {
-      background: #080F1C;
+      background: var(--blue);
       padding: 6rem 2rem;
     }
 
@@ -1557,7 +1557,7 @@
         </div>
 
         <button class="btn-ver-grade" onclick="abrirModal()">
-          📅 Ver grade completa de horários
+          Ver grade completa de horários
         </button>
       </div>
     </section>
@@ -2077,8 +2077,8 @@
       </div>
       <div class="footer-copy">Academia Belfort © 2026 · Belém, PA</div>
       <div class="footer-socials">
-        <a href="#" target="_blank">Instagram</a>
-        <a href="#" target="_blank">Facebook</a>
+        <a href="https://www.instagram.com/academiabelfort/" target="_blank">Instagram</a>
+        <a href="https://www.facebook.com/acadbelfort/?locale=pt_BR" target="_blank">Facebook</a>
       </div>
     </div>
   </footer>
@@ -2143,8 +2143,12 @@
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') fecharModal();
     });
-  </script>
 
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 
 </html>
