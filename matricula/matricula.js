@@ -14,20 +14,31 @@ const WHATSAPP_NUMERO = '5591984862479';
 
 // ── PLANOS ──
 const PLANOS = {
-  musculacao: [
-    { id: 'musc_mensal',    nome: 'Mensal',     detalhe: 'Pagamento único',      preco: 'R$ 110,00',  parcela: '' },
-    { id: 'musc_trim',      nome: 'Trimestral', detalhe: '3 meses',              preco: 'R$ 315,00',  parcela: '3x de R$ 105,00' },
-    { id: 'musc_sem',       nome: 'Semestral',  detalhe: '6 meses',              preco: 'R$ 600,00',  parcela: '6x de R$ 100,00' },
-  ],
-  cross: [
-    { id: 'cross_mensal',   nome: 'Mensal',     detalhe: 'Pagamento único',      preco: 'R$ 190,00',  parcela: '' },
-    { id: 'cross_trim',     nome: 'Trimestral', detalhe: '3 meses',              preco: 'R$ 510,00',  parcela: '3x de R$ 170,00' },
-    { id: 'cross_sem',      nome: 'Semestral',  detalhe: '6 meses',              preco: 'R$ 900,00',  parcela: '6x de R$ 150,00' },
-  ]
+  musculacao: {
+    telegrafo: [
+      { id: 'musc_mensal', nome: 'Mensal', detalhe: 'Pagamento único', preco: 'R$ 110,00', parcela: '' },
+      { id: 'musc_trim', nome: 'Trimestral', detalhe: '3 meses', preco: 'R$ 315,00', parcela: '3x de R$ 105,00' },
+      { id: 'musc_sem', nome: 'Semestral', detalhe: '6 meses', preco: 'R$ 600,00', parcela: '6x de R$ 100,00' },
+    ],
+    sacramenta: [
+      { id: 'musc_mensal_sac', nome: 'Mensal', detalhe: 'Musculação + mais de 70 aulas coletivas por mês', preco: 'R$ 100,00', parcela: '' },
+    ]
+  },
+  cross: {
+    telegrafo: [
+      { id: 'cross_mensal', nome: 'Mensal', detalhe: 'Pagamento único', preco: 'R$ 190,00', parcela: '' },
+      { id: 'cross_trim', nome: 'Trimestral', detalhe: '3 meses', preco: 'R$ 510,00', parcela: '3x de R$ 170,00' },
+      { id: 'cross_sem', nome: 'Semestral', detalhe: '6 meses', preco: 'R$ 900,00', parcela: '6x de R$ 150,00' },
+    ],
+    sacramenta: [
+      { id: 'cross_mensal', nome: 'Mensal', detalhe: 'Pagamento único', preco: 'R$ 190,00', parcela: '' },
+      { id: 'cross_trim', nome: 'Trimestral', detalhe: '3 meses', preco: 'R$ 510,00', parcela: '3x de R$ 170,00' },
+      { id: 'cross_sem', nome: 'Semestral', detalhe: '6 meses', preco: 'R$ 900,00', parcela: '6x de R$ 150,00' },
+    ]
+  }
 };
-
 // ── HORÁRIOS CROSS ──
-const HORARIOS_CROSS = ['06:00','07:00','08:00','10:00','18:30','19:30','20:30'];
+const HORARIOS_CROSS = ['06:00', '07:00', '08:00', '10:00', '18:30', '19:30', '20:30'];
 
 // ── NAVEGAÇÃO ──
 function goStep(n) {
@@ -98,22 +109,59 @@ function selectModalidade(val, el) {
   state.modalidade = val;
   state.horario = null;
   state.plano = null;
-  document.querySelectorAll('#step3 .option-grid:first-of-type .option-btn')
-    .forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('#step3 .option-grid').forEach((grid, i) => {
+    if (i === 0) grid.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  });
   el.classList.add('selected');
+
+  // Remove aviso se trocou pra musculação
+  const aviso = document.getElementById('avisoCross');
+  if (aviso && val === 'musculacao') aviso.remove();
+
   checkStep3();
 }
 
 function selectUnidade(val, el) {
   state.unidade = val;
-  document.querySelectorAll('#step3 .option-grid:last-of-type .option-btn')
-    .forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('#step3 .option-grid').forEach((grid, i) => {
+    if (i === 1) grid.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  });
   el.classList.add('selected');
+
+  // Aviso Sacramenta + Cross
+  const aviso = document.getElementById('avisoCross');
+  if (val === 'sacramenta' && state.modalidade === 'cross') {
+    state.modalidade = null;
+    state.plano = null;
+    document.querySelectorAll('#step3 .option-grid').forEach((grid, i) => {
+      if (i === 0) grid.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    });
+    if (!aviso) {
+      const div = document.createElement('div');
+      div.id = 'avisoCross';
+      div.style.cssText = `
+        background: #FEF3F2;
+        border: 1.5px solid var(--red);
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        font-size: 0.83rem;
+        color: var(--red-dark);
+        margin-top: 0.5rem;
+        line-height: 1.5;
+      `;
+      div.innerHTML = '⚠️ <strong>Cross Training</strong> não está disponível na unidade Sacramenta. Por favor, selecione Musculação ou escolha a unidade Telégrafo.';
+      document.getElementById('step3').appendChild(div);
+    }
+  } else {
+    if (aviso) aviso.remove();
+  }
+
   checkStep3();
 }
 
 function checkStep3() {
-  document.getElementById('btn3').disabled = !(state.modalidade && state.unidade);
+  const bloqueado = state.unidade === 'sacramenta' && state.modalidade === 'cross';
+  document.getElementById('btn3').disabled = !(state.modalidade && state.unidade) || bloqueado;
 }
 
 // ── STEP 4: HORÁRIO + PLANO ──
@@ -149,9 +197,13 @@ function selectHorario(h, el) {
 }
 
 function renderPlanos() {
-  const planos = PLANOS[state.modalidade] || [];
+  const unidade = state.unidade || 'telegrafo';
+  const planos = PLANOS[state.modalidade]?.[unidade] || [];
+
+  state.plano = null;
+
   document.getElementById('planosGrid').innerHTML = planos.map(p => `
-    <div class="plano-card${state.plano === p.id ? ' selected' : ''}" onclick="selectPlano('${p.id}', this)">
+    <div class="plano-card" onclick="selectPlano('${p.id}', this)">
       <div>
         <div class="plano-nome">${p.nome}</div>
         <div class="plano-detalhe">${p.detalhe}</div>
@@ -162,6 +214,8 @@ function renderPlanos() {
       </div>
     </div>
   `).join('');
+
+  checkStep4();
 }
 
 function selectPlano(id, el) {
@@ -178,7 +232,8 @@ function checkStep4() {
 
 // ── RESUMO ──
 function renderResumo() {
-  const planoObj = (PLANOS[state.modalidade] || []).find(p => p.id === state.plano);
+  const unidade = state.unidade || 'telegrafo';
+  const planoObj = (PLANOS[state.modalidade]?.[unidade] || []).find(p => p.id === state.plano);
   const planoStr = planoObj ? `${planoObj.nome} — ${planoObj.preco}` : '';
   const unidadeStr = state.unidade === 'telegrafo' ? 'Telégrafo' : 'Sacramenta';
   const modalidadeStr = state.modalidade === 'musculacao' ? '🏋️ Musculação' : '⚡ Cross Training';
@@ -204,7 +259,8 @@ function renderResumo() {
 
 // ── SUBMIT ──
 async function submitForm() {
-  const planoObj = (PLANOS[state.modalidade] || []).find(p => p.id === state.plano);
+  const unidade = state.unidade || 'telegrafo';
+  const planoObj = (PLANOS[state.modalidade]?.[unidade] || []).find(p => p.id === state.plano);
   const payload = {
     timestamp: new Date().toLocaleString('pt-BR'),
     nome: document.getElementById('nome').value.trim(),
