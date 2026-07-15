@@ -75,10 +75,10 @@ export function ToggleRow({ value, onChange }: { value: boolean | null; onChange
       <button
         type="button"
         onClick={() => onChange(true)}
-        className={`flex-1 rounded-lg border-[1.5px] py-2.5 text-[0.85rem] font-semibold transition-colors ${
+        className={`flex-1 rounded-lg border-[1.5px] py-2.5 text-[0.85rem] font-semibold transition-all active:scale-95 ${
           value === true
-            ? "border-[var(--red)] bg-[#FEF3F2] text-[var(--red-dark)]"
-            : "border-[var(--gray-light)] bg-white"
+            ? "scale-[1.02] border-[var(--red)] bg-[#FEF3F2] text-[var(--red-dark)] shadow-[0_4px_14px_rgba(204,55,56,0.15)]"
+            : "border-[var(--gray-light)] bg-white hover:border-[var(--red)]/40"
         }`}
       >
         Sim
@@ -86,10 +86,10 @@ export function ToggleRow({ value, onChange }: { value: boolean | null; onChange
       <button
         type="button"
         onClick={() => onChange(false)}
-        className={`flex-1 rounded-lg border-[1.5px] py-2.5 text-[0.85rem] font-semibold transition-colors ${
+        className={`flex-1 rounded-lg border-[1.5px] py-2.5 text-[0.85rem] font-semibold transition-all active:scale-95 ${
           value === false
-            ? "border-[#16A34A] bg-[#F0FDF4] text-[#166534]"
-            : "border-[var(--gray-light)] bg-white"
+            ? "scale-[1.02] border-[#16A34A] bg-[#F0FDF4] text-[#166534] shadow-[0_4px_14px_rgba(22,163,74,0.15)]"
+            : "border-[var(--gray-light)] bg-white hover:border-[#16A34A]/40"
         }`}
       >
         Não
@@ -117,13 +117,15 @@ export function OptionButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-xl border-2 px-3 py-4 text-center transition-all ${
+      className={`rounded-xl border-2 px-3 py-4 text-center transition-all active:scale-95 ${
         selected
-          ? "border-[var(--blue)] bg-[var(--blue)] text-white"
-          : "border-[var(--gray-light)] bg-white hover:border-[var(--blue-light)] hover:bg-[#EEF3FC]"
+          ? "-translate-y-0.5 border-[var(--blue)] bg-[var(--blue)] text-white shadow-[0_10px_24px_rgba(13,31,60,0.25)]"
+          : "border-[var(--gray-light)] bg-white hover:-translate-y-0.5 hover:border-[var(--blue-light)] hover:bg-[#EEF3FC] hover:shadow-[0_8px_20px_rgba(37,99,212,0.12)]"
       }`}
     >
-      <span className={`mb-1.5 block text-2xl ${selected ? "text-white/70" : "text-[var(--blue-light)]"}`}>
+      <span
+        className={`mb-1.5 block text-2xl transition-transform duration-300 ${selected ? "scale-110 text-white/70" : "text-[var(--blue-light)]"}`}
+      >
         {icon}
       </span>
       <span className="block text-[0.85rem] font-semibold">{label}</span>
@@ -148,9 +150,9 @@ export function HorarioButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-lg border-[1.5px] py-2.5 text-[0.82rem] font-semibold transition-colors ${
+      className={`rounded-lg border-[1.5px] py-2.5 text-[0.82rem] font-semibold transition-all active:scale-95 ${
         selected
-          ? "border-[var(--red)] bg-[var(--red)] text-white"
+          ? "-translate-y-0.5 border-[var(--red)] bg-[var(--red)] text-white shadow-[0_8px_20px_rgba(204,55,56,0.3)]"
           : "border-[var(--gray-light)] bg-white text-[var(--text)] hover:border-[var(--red)] hover:text-[var(--red)]"
       }`}
     >
@@ -174,9 +176,9 @@ export function DiaButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-lg border-[1.5px] px-2 py-2.5 text-center text-[0.82rem] font-semibold transition-colors ${
+      className={`rounded-lg border-[1.5px] px-2 py-2.5 text-center text-[0.82rem] font-semibold transition-all active:scale-95 ${
         selected
-          ? "border-[var(--red)] bg-[var(--red)] text-white"
+          ? "-translate-y-0.5 border-[var(--red)] bg-[var(--red)] text-white shadow-[0_8px_20px_rgba(204,55,56,0.3)]"
           : "border-[var(--gray-light)] bg-white text-[var(--text)] hover:border-[var(--red)] hover:text-[var(--red)]"
       }`}
     >
@@ -204,8 +206,10 @@ export function PlanoSelectCard({
   return (
     <div
       onClick={onClick}
-      className={`mb-2 flex cursor-pointer items-center justify-between rounded-xl border-2 px-[1.1rem] py-4 transition-all ${
-        selected ? "border-[var(--blue)] bg-[#EEF3FC]" : "border-[var(--gray-light)] hover:border-[var(--blue-light)]"
+      className={`mb-2 flex cursor-pointer items-center justify-between rounded-xl border-2 px-[1.1rem] py-4 transition-all active:scale-[0.98] ${
+        selected
+          ? "-translate-y-0.5 border-[var(--blue)] bg-[#EEF3FC] shadow-[0_10px_24px_rgba(13,31,60,0.14)]"
+          : "border-[var(--gray-light)] hover:-translate-y-0.5 hover:border-[var(--blue-light)] hover:shadow-[0_8px_18px_rgba(37,99,212,0.1)]"
       }`}
     >
       <div>
@@ -245,7 +249,7 @@ export function BtnPrimary({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className="w-full rounded-xl bg-[var(--red)] py-4 text-base font-semibold tracking-[0.02em] text-white transition-all enabled:hover:-translate-y-px enabled:hover:bg-[var(--red-dark)] disabled:cursor-not-allowed disabled:opacity-45"
+      className="w-full rounded-xl bg-[var(--red)] py-4 text-base font-semibold tracking-[0.02em] text-white transition-all enabled:hover:-translate-y-px enabled:hover:bg-[var(--red-dark)] enabled:hover:shadow-[0_10px_28px_rgba(204,55,56,0.35)] enabled:active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-45"
     >
       {children}
     </button>
@@ -257,9 +261,9 @@ export function BtnBack({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="mb-5 flex items-center gap-1 text-[0.85rem] text-[var(--gray)] transition-colors hover:text-[var(--blue)]"
+      className="group mb-5 flex items-center gap-1 text-[0.85rem] text-[var(--gray)] transition-colors hover:text-[var(--blue)]"
     >
-      ← Voltar
+      <span className="transition-transform duration-200 group-hover:-translate-x-1">←</span> Voltar
     </button>
   );
 }
@@ -270,7 +274,7 @@ export function BtnWhatsapp({ href }: { href: string }) {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] py-4 text-base font-semibold text-white transition-all hover:-translate-y-px hover:bg-[#1da851]"
+      className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] py-4 text-base font-semibold text-white transition-all hover:-translate-y-px hover:bg-[#1da851] hover:shadow-[0_10px_28px_rgba(37,211,102,0.35)] active:scale-[0.98]"
     >
       💬 Falar com a Recepção
     </a>
@@ -288,7 +292,7 @@ export function AvisoBox({ children, className }: { children: ReactNode; classNa
 export function LoadingOverlay({ show }: { show: boolean }) {
   if (!show) return null;
   return (
-    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[rgba(26,58,107,0.5)]">
+    <div className="animate-fade-in-step fixed inset-0 z-[999] flex items-center justify-center bg-[rgba(26,58,107,0.5)] backdrop-blur-[2px]">
       <div className="animate-spin-slow h-12 w-12 rounded-full border-[3px] border-white/30 border-t-white" />
     </div>
   );

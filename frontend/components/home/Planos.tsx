@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import Reveal from "@/components/ui/Reveal";
 
 interface PlanoCard {
   nome: string;
@@ -85,14 +86,14 @@ const SACRAMENTA_PLANO: PlanoCard = {
 function Card({ plano }: { plano: PlanoCard }) {
   return (
     <div
-      className={`relative rounded-2xl border-[1.5px] p-8 px-6 transition-all hover:-translate-y-1 ${
+      className={`relative rounded-2xl border-[1.5px] p-8 px-6 transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.015] ${
         plano.destaque
-          ? "border-[var(--red)] bg-[var(--blue)] text-white"
-          : "border-[var(--gray-light)] bg-white hover:border-[var(--blue)] hover:shadow-[0_16px_40px_rgba(13,31,60,0.12)]"
+          ? "border-[var(--red)] bg-[var(--blue)] text-white shadow-[0_20px_50px_rgba(204,55,56,0.22)] hover:shadow-[0_26px_60px_rgba(204,55,56,0.32)]"
+          : "border-[var(--gray-light)] bg-white hover:border-[var(--blue)] hover:shadow-[0_20px_45px_rgba(13,31,60,0.15)]"
       }`}
     >
       {plano.destaque && (
-        <span className="absolute -top-3 right-5 rounded bg-[var(--red)] px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-white">
+        <span className="absolute -top-3 right-5 animate-pulse rounded bg-[var(--red)] px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-white">
           Mais popular
         </span>
       )}
@@ -124,7 +125,7 @@ function Card({ plano }: { plano: PlanoCard }) {
       </ul>
       <a
         href="/matricula"
-        className={`block w-full rounded-[10px] py-[0.85rem] text-center text-[0.85rem] font-bold uppercase tracking-[0.06em] transition-colors ${
+        className={`block w-full rounded-[10px] py-[0.85rem] text-center text-[0.85rem] font-bold uppercase tracking-[0.06em] transition-all active:scale-95 ${
           plano.destaque
             ? "bg-[var(--red)] text-white hover:bg-[var(--red-dark)]"
             : "bg-[var(--blue)] text-white hover:bg-[var(--blue-light)]"
@@ -142,31 +143,33 @@ export default function Planos() {
   return (
     <section id="planos" className="bg-[var(--cream)] px-8 py-24 text-[var(--text)]">
       <div className="mx-auto max-w-[1200px]">
-        <div className="mb-3 flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[var(--red)]">
-          <span className="block h-0.5 w-5 bg-[var(--red)]" />
-          Investimento
-        </div>
-        <h2 className="font-heading mb-10 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95] tracking-[0.02em] text-[var(--blue)]">
-          Escolha seu
-          <br />
-          plano
-        </h2>
+        <Reveal>
+          <div className="mb-3 flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[var(--red)]">
+            <span className="block h-0.5 w-5 bg-[var(--red)]" />
+            Investimento
+          </div>
+          <h2 className="font-heading mb-10 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95] tracking-[0.02em] text-[var(--blue)]">
+            Escolha seu
+            <br />
+            plano
+          </h2>
 
-        <div className="mb-10 flex gap-2">
-          {(["telegrafo", "sacramenta"] as const).map((u) => (
-            <button
-              key={u}
-              onClick={() => setUnidade(u)}
-              className={`rounded-lg border-[1.5px] px-6 py-[0.6rem] text-[0.85rem] font-semibold uppercase tracking-[0.06em] transition-all ${
-                unidade === u
-                  ? "border-[var(--blue)] bg-[var(--blue)] text-white"
-                  : "border-[var(--gray-light)] bg-transparent text-[var(--gray)]"
-              }`}
-            >
-              {u === "telegrafo" ? "Telégrafo" : "Sacramenta"}
-            </button>
-          ))}
-        </div>
+          <div className="mb-10 flex gap-2">
+            {(["telegrafo", "sacramenta"] as const).map((u) => (
+              <button
+                key={u}
+                onClick={() => setUnidade(u)}
+                className={`rounded-lg border-[1.5px] px-6 py-[0.6rem] text-[0.85rem] font-semibold uppercase tracking-[0.06em] transition-all active:scale-95 ${
+                  unidade === u
+                    ? "border-[var(--blue)] bg-[var(--blue)] text-white"
+                    : "border-[var(--gray-light)] bg-transparent text-[var(--gray)] hover:border-[var(--blue)] hover:text-[var(--blue)]"
+                }`}
+              >
+                {u === "telegrafo" ? "Telégrafo" : "Sacramenta"}
+              </button>
+            ))}
+          </div>
+        </Reveal>
 
         {unidade === "telegrafo" ? (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -179,8 +182,10 @@ export default function Planos() {
                     {grupo.label}
                   </span>
                 </div>
-                {grupo.planos.map((p) => (
-                  <Card key={p.nome} plano={p} />
+                {grupo.planos.map((p, pi) => (
+                  <Reveal key={p.nome} delay={pi * 80}>
+                    <Card plano={p} />
+                  </Reveal>
                 ))}
               </Fragment>
             ))}
@@ -192,9 +197,9 @@ export default function Planos() {
                 🏋️ Musculação
               </span>
             </div>
-            <div className="md:col-start-2">
+            <Reveal className="md:col-start-2">
               <Card plano={SACRAMENTA_PLANO} />
-            </div>
+            </Reveal>
             <p className="col-span-full mt-4 text-center text-[0.8rem] text-[var(--gray)]">
               ℹ️ A unidade Sacramenta oferece apenas o plano mensal de musculação, com bônus de mais de 70 aulas
               coletivas mensais.

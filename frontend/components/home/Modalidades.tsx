@@ -1,3 +1,5 @@
+import Reveal from "@/components/ui/Reveal";
+
 const MODALIDADES = [
   {
     icon: "🏋️",
@@ -16,43 +18,46 @@ const MODALIDADES = [
 export default function Modalidades() {
   return (
     <div className="mx-auto max-w-[1200px]">
-      <div className="mb-3 flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[var(--red)]">
-        <span className="block h-0.5 w-5 bg-[var(--red)]" />
-        O que oferecemos
-      </div>
-      <h2 className="font-heading mb-12 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95] tracking-[0.02em]">
-        Nossas
-        <br />
-        modalidades
-      </h2>
+      <Reveal>
+        <div className="mb-3 flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[var(--red)]">
+          <span className="block h-0.5 w-5 bg-[var(--red)]" />
+          O que oferecemos
+        </div>
+        <h2 className="font-heading mb-12 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95] tracking-[0.02em]">
+          Nossas
+          <br />
+          modalidades
+        </h2>
+      </Reveal>
 
       <div className="grid grid-cols-1 gap-[1.5px] overflow-hidden rounded-[20px] bg-white/[0.06] md:grid-cols-2">
-        {MODALIDADES.map((m) => (
-          <div
-            key={m.nome}
-            className="group relative overflow-hidden bg-[var(--blue-mid)] px-10 py-12 transition-colors hover:bg-[var(--blue-light)]"
-          >
-            <span className="absolute bottom-0 left-0 h-[3px] w-full origin-left scale-x-0 bg-[var(--red)] transition-transform duration-[400ms] group-hover:scale-x-100" />
-            <div className="mb-5 text-5xl">{m.icon}</div>
-            <div className="font-heading mb-3 text-[2.2rem] tracking-[0.04em]">{m.nome}</div>
-            <p className="max-w-[340px] text-[0.9rem] leading-[1.7] text-white/55">{m.desc}</p>
-            <div className="mt-6 flex flex-wrap gap-1.5">
-              {m.horarios.map((h) => (
-                <span
-                  key={h}
-                  className="rounded bg-white/[0.08] px-[10px] py-1 text-[0.72rem] font-semibold tracking-[0.06em] text-white/70"
-                >
-                  {h}
-                </span>
-              ))}
+        {MODALIDADES.map((m, i) => (
+          <Reveal key={m.nome} delay={i * 100} className="h-full">
+            <div className="group relative h-full overflow-hidden bg-[var(--blue-mid)] px-10 py-12 transition-all duration-300 hover:z-10 hover:-translate-y-1 hover:bg-[var(--blue-light)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]">
+              <span className="absolute bottom-0 left-0 h-[3px] w-full origin-left scale-x-0 bg-[var(--red)] transition-transform duration-[400ms] group-hover:scale-x-100" />
+              <div className="mb-5 text-5xl transition-transform duration-300 group-hover:scale-110">
+                {m.icon}
+              </div>
+              <div className="font-heading mb-3 text-[2.2rem] tracking-[0.04em]">{m.nome}</div>
+              <p className="max-w-[340px] text-[0.9rem] leading-[1.7] text-white/55">{m.desc}</p>
+              <div className="mt-6 flex flex-wrap gap-1.5">
+                {m.horarios.map((h) => (
+                  <span
+                    key={h}
+                    className="rounded bg-white/[0.08] px-[10px] py-1 text-[0.72rem] font-semibold tracking-[0.06em] text-white/70"
+                  >
+                    {h}
+                  </span>
+                ))}
+              </div>
+              <a
+                href="/cortesia"
+                className="mt-8 inline-flex items-center gap-1.5 text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[var(--red-glow)] transition-[gap] hover:gap-2.5"
+              >
+                Agendar aula grátis →
+              </a>
             </div>
-            <a
-              href="/cortesia"
-              className="mt-8 inline-flex items-center gap-1.5 text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[var(--red-glow)] transition-[gap] hover:gap-2.5"
-            >
-              Agendar aula grátis →
-            </a>
-          </div>
+          </Reveal>
         ))}
       </div>
     </div>

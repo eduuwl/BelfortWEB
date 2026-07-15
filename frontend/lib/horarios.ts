@@ -1,9 +1,33 @@
-export const HORARIOS_MUSC = [
-  '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
-  '13:00', '14:00', '15:00', '16:00', '17:00',
-];
+export interface HorarioSlot {
+  value: string;
+  label: string;
+  somenteSabado?: boolean;
+}
 
-export const HORARIOS_CROSS = ['06:00', '12:30', '18:30', '19:30', 'Padrão'];
+function gerarSlots(inicioHora: number, fimHora: number, passoMinutos: number): HorarioSlot[] {
+  const slots: HorarioSlot[] = [];
+  for (let mins = inicioHora * 60; mins <= fimHora * 60; mins += passoMinutos) {
+    const h = Math.floor(mins / 60).toString().padStart(2, '0');
+    const m = (mins % 60).toString().padStart(2, '0');
+    const label = `${h}:${m}`;
+    slots.push({ value: label, label });
+  }
+  return slots;
+}
+
+// Academia funciona das 6h às 22h — musculação tem horário livre nesse intervalo.
+export const HORARIOS_MUSC: HorarioSlot[] = gerarSlots(6, 22, 30);
+
+// Cross Training tem aulas em horários fixos. A de 10h só acontece aos sábados.
+export const HORARIOS_CROSS: HorarioSlot[] = [
+  { value: '06:00', label: '06:00 – 07:00' },
+  { value: '07:00', label: '07:00 – 08:00' },
+  { value: '08:00', label: '08:00 – 09:00' },
+  { value: '10:00', label: '10:00 – 11:00 (Sáb)', somenteSabado: true },
+  { value: '18:30', label: '18:30 – 19:30' },
+  { value: '19:30', label: '19:30 – 20:30' },
+  { value: '20:30', label: '20:30 – 21:30' },
+];
 
 export const DIAS_SEMANA = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 

@@ -10,6 +10,7 @@ import {
   GRADE_TELEGRAFO,
   type GradeRow,
 } from "@/lib/coletivas";
+import Reveal from "@/components/ui/Reveal";
 
 function GradeTable({ dias, rows }: { dias: string[]; rows: GradeRow[] }) {
   return (
@@ -66,47 +67,54 @@ export default function ColetivasSection() {
   return (
     <section className="bg-[var(--blue)] px-8 py-24">
       <div className="mx-auto max-w-[1200px]">
-        <div className="mb-3 flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[var(--red)]">
-          <span className="block h-0.5 w-5 bg-[var(--red)]" />
-          Mais de 70 aulas por mês
-        </div>
-        <h2 className="font-heading mb-12 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95] tracking-[0.02em]">
-          Aulas coletivas
-        </h2>
+        <Reveal>
+          <div className="mb-3 flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[var(--red)]">
+            <span className="block h-0.5 w-5 bg-[var(--red)]" />
+            Mais de 70 aulas por mês
+          </div>
+          <h2 className="font-heading mb-12 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95] tracking-[0.02em]">
+            Aulas coletivas
+          </h2>
+        </Reveal>
 
         <div className="mb-12 grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-3">
-          {COLETIVAS.map((c) => {
+          {COLETIVAS.map((c, i) => {
             const color = COLETIVA_COLORS[c.slug];
             return (
-              <div
-                key={c.slug}
-                className="cursor-pointer rounded-[14px] border px-4 py-[1.4rem] text-center transition-all hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.3)]"
-                style={{ background: color.bg, borderColor: color.border }}
-              >
-                <div className="mb-2 text-3xl">{c.icon}</div>
-                <div className="font-heading text-[1.1rem] tracking-[0.06em]">{c.nome}</div>
-                <div className="mt-1 text-[0.72rem] leading-snug text-white/50">{c.desc}</div>
-              </div>
+              <Reveal key={c.slug} delay={i * 50} y={16}>
+                <div
+                  className="group h-full cursor-pointer rounded-[14px] border px-4 py-[1.4rem] text-center shadow-black/10 transition-all hover:-translate-y-1.5 hover:shadow-[0_16px_34px_rgba(0,0,0,0.35)]"
+                  style={{ background: color.bg, borderColor: color.border }}
+                >
+                  <div className="mb-2 text-3xl transition-transform duration-300 group-hover:scale-125">
+                    {c.icon}
+                  </div>
+                  <div className="font-heading text-[1.1rem] tracking-[0.06em]">{c.nome}</div>
+                  <div className="mt-1 text-[0.72rem] leading-snug text-white/50">{c.desc}</div>
+                </div>
+              </Reveal>
             );
           })}
         </div>
 
-        <button
-          onClick={() => setModalOpen(true)}
-          className="mx-auto flex items-center gap-2 rounded-lg bg-[var(--red)] px-10 py-4 text-[0.9rem] font-bold uppercase tracking-[0.06em] text-white transition-all hover:bg-[var(--red-dark)] hover:-translate-y-0.5"
-        >
-          Ver grade completa de horários
-        </button>
+        <Reveal>
+          <button
+            onClick={() => setModalOpen(true)}
+            className="mx-auto flex items-center gap-2 rounded-lg bg-[var(--red)] px-10 py-4 text-[0.9rem] font-bold uppercase tracking-[0.06em] text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--red-dark)] hover:shadow-[0_10px_30px_rgba(204,55,56,0.35)] active:scale-95"
+          >
+            Ver grade completa de horários
+          </button>
+        </Reveal>
       </div>
 
       {modalOpen && (
         <div
-          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 p-4"
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
           onClick={(e) => {
             if (e.target === e.currentTarget) setModalOpen(false);
           }}
         >
-          <div className="flex max-h-[90vh] w-full max-w-[900px] flex-col overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#0D1F3C]">
+          <div className="animate-modal-in flex max-h-[90vh] w-full max-w-[900px] flex-col overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#0D1F3C] shadow-2xl shadow-black/50">
             <div className="flex items-center justify-between border-b border-white/[0.08] px-8 py-6">
               <div className="font-heading text-[1.8rem] tracking-[0.04em]">Grade de Horários</div>
               <button

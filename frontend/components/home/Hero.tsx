@@ -1,4 +1,5 @@
 import Image from "next/image";
+import CountUp from "@/components/ui/CountUp";
 
 export default function Hero() {
   return (
@@ -68,13 +69,13 @@ export default function Hero() {
         >
           <a
             href="/cortesia"
-            className="rounded-lg bg-[var(--red)] px-8 py-4 text-[0.9rem] font-bold uppercase tracking-[0.06em] text-white shadow-[0_0_30px_rgba(204,55,56,0.4)] transition-all hover:-translate-y-0.5 hover:bg-[var(--red-dark)] hover:shadow-[0_0_40px_rgba(204,55,56,0.6)]"
+            className="animate-glow-pulse rounded-lg bg-[var(--red)] px-8 py-4 text-[0.9rem] font-bold uppercase tracking-[0.06em] text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--red-dark)] active:scale-95"
           >
             Agendar aula grátis
           </a>
           <a
             href="#planos"
-            className="rounded-lg border-[1.5px] border-white/25 px-8 py-4 text-[0.9rem] font-semibold uppercase tracking-[0.06em] text-white transition-all hover:border-white/60 hover:bg-white/[0.06]"
+            className="rounded-lg border-[1.5px] border-white/25 px-8 py-4 text-[0.9rem] font-semibold uppercase tracking-[0.06em] text-white transition-all hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/[0.06] active:scale-95"
           >
             Ver planos
           </a>
@@ -86,7 +87,8 @@ export default function Hero() {
         >
           <div>
             <div className="font-heading text-4xl leading-none text-white">
-              2<span className="text-[var(--red)]">+</span>
+              <CountUp end={2} />
+              <span className="text-[var(--red)]">+</span>
             </div>
             <div className="mt-1 text-[0.75rem] uppercase tracking-[0.1em] text-white/45">
               Unidades
@@ -94,7 +96,8 @@ export default function Hero() {
           </div>
           <div>
             <div className="font-heading text-4xl leading-none text-white">
-              100<span className="text-[var(--red)]">%</span>
+              <CountUp end={100} />
+              <span className="text-[var(--red)]">%</span>
             </div>
             <div className="mt-1 text-[0.75rem] uppercase tracking-[0.1em] text-white/45">
               Resultado
@@ -102,7 +105,8 @@ export default function Hero() {
           </div>
           <div>
             <div className="font-heading text-4xl leading-none text-white">
-              6<span className="text-[var(--red)]">h</span>
+              <CountUp end={6} />
+              <span className="text-[var(--red)]">h</span>
             </div>
             <div className="mt-1 text-[0.75rem] uppercase tracking-[0.1em] text-white/45">
               Primeira aula às

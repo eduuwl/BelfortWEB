@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import StepsIndicator from "@/components/form/StepsIndicator";
+import FormNav from "@/components/form/FormNav";
 import {
   BtnBack,
   BtnPrimary,
@@ -62,9 +61,17 @@ const WHATSAPP_NUMERO = "5591984862479";
 
 export default function CortesiaForm() {
   const [step, setStep] = useState<Step>(1);
+  const [direction, setDirection] = useState<1 | -1>(1);
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState(false);
+
+  const stepAnim = direction === 1 ? "animate-step-fwd" : "animate-step-back";
+
+  function goTo(next: Step) {
+    setDirection(typeof step === "number" && typeof next === "number" && next < step ? -1 : 1);
+    setStep(next);
+  }
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -80,14 +87,30 @@ export default function CortesiaForm() {
     form.limitacao !== null;
 
   const horarios = form.modalidade === "musculacao" ? HORARIOS_MUSC : HORARIOS_CROSS;
+  const horarioSelecionado = horarios.find((h) => h.value === form.horario);
+  const crossSomenteSabado = form.modalidade === "cross" && horarioSelecionado?.somenteSabado === true;
   const step3Ok = form.horario !== null;
   const step4Ok = form.dia !== null;
 
-  const diasConsecutivos = form.modalidade === "cross" && form.dia ? DIAS_CONSECUTIVOS[form.dia] ?? [] : [];
+  const diasConsecutivos =
+    form.modalidade === "cross" && form.dia
+      ? crossSomenteSabado
+        ? [form.dia]
+        : DIAS_CONSECUTIVOS[form.dia] ?? []
+      : [];
   const diasStr = form.modalidade === "cross" ? diasConsecutivos.join(", ") : (form.dia ?? "");
+  const horarioLabel = horarioSelecionado?.label ?? form.horario ?? "";
 
   function selectDia(d: string) {
     update("dia", d);
+  }
+
+  function selectModalidade(m: Modalidade) {
+    setForm((f) => ({ ...f, modalidade: m, horario: null, dia: null }));
+  }
+
+  function selectHorario(v: string) {
+    setForm((f) => ({ ...f, horario: v, dia: null }));
   }
 
   async function handleSubmit() {
@@ -100,7 +123,7 @@ export default function CortesiaForm() {
       whatsapp: form.whatsapp.trim(),
       cpf: form.cpf.trim(),
       modalidade: form.modalidade === "musculacao" ? "Musculação" : "Cross Training",
-      horario: form.horario,
+      horario: horarioLabel,
       dia: diasStr,
       limitacao: form.limitacao ? form.limitacaoDesc.trim() || "Sim" : "Não",
     });
@@ -112,25 +135,18 @@ export default function CortesiaForm() {
       return;
     }
 
-    setStep("sucesso");
+    goTo("sucesso");
   }
 
   const whatsMsg = encodeURIComponent(
     `Olá! Acabei de agendar minha aula de cortesia de ${
       form.modalidade === "musculacao" ? "Musculação" : "Cross Training"
-    } na Academia Belfort para ${diasStr} às ${form.horario}. Nome: ${form.nome.trim()}`,
+    } na Academia Belfort para ${diasStr} às ${horarioLabel}. Nome: ${form.nome.trim()}`,
   );
 
   return (
     <FormPage bgClassName="bg-[var(--blue)]">
-      <nav className="fixed inset-x-0 top-0 z-[100] flex items-center justify-between bg-[rgba(13,31,60,0.95)] px-6 py-4 backdrop-blur-md">
-        <Link href="/">
-          <Image src="/images/logo.png" alt="Academia Belfort" width={1005} height={334} className="h-8 w-auto" />
-        </Link>
-        <Link href="/" className="text-[0.78rem] font-semibold uppercase tracking-[0.1em] text-white/70">
-          ← Página inicial
-        </Link>
-      </nav>
+      <FormNav />
 
       <FormHero
         subtitle="Sua jornada começa aqui"
@@ -144,24 +160,24 @@ export default function CortesiaForm() {
           {step !== "sucesso" && <StepsIndicator total={5} current={step as number} />}
 
           {step === 1 && (
-            <div className="animate-fade-in-step">
+            <div className={stepAnim}>
               <StepTitle>Escolha a modalidade</StepTitle>
               <StepDesc>Qual aula de cortesia você quer experimentar?</StepDesc>
 
               <OptionGrid>
-                <OptionButton icon="🏋️" label="Musculação" selected={form.modalidade === "musculacao"} onClick={() => update("modalidade", "musculacao")} />
-                <OptionButton icon="⚡" label="Cross Training" selected={form.modalidade === "cross"} onClick={() => update("modalidade", "cross")} />
+                <OptionButton icon="🏋️" label="Musculação" selected={form.modalidade === "musculacao"} onClick={() => selectModalidade("musculacao")} />
+                <OptionButton icon="⚡" label="Cross Training" selected={form.modalidade === "cross"} onClick={() => selectModalidade("cross")} />
               </OptionGrid>
 
-              <BtnPrimary disabled={!step1Ok} onClick={() => setStep(2)}>
+              <BtnPrimary disabled={!step1Ok} onClick={() => goTo(2)}>
                 Continuar
               </BtnPrimary>
             </div>
           )}
 
           {step === 2 && (
-            <div className="animate-fade-in-step">
-              <BtnBack onClick={() => setStep(1)} />
+            <div className={stepAnim}>
+              <BtnBack onClick={() => goTo(1)} />
               <StepTitle>Seus dados</StepTitle>
               <StepDesc>Precisamos de algumas informações para confirmar seu agendamento.</StepDesc>
 
@@ -185,7 +201,7 @@ export default function CortesiaForm() {
               </div>
 
               <div className="mt-4">
-                <BtnPrimary disabled={!step2Ok} onClick={() => setStep(3)}>
+                <BtnPrimary disabled={!step2Ok} onClick={() => goTo(3)}>
                   Continuar
                 </BtnPrimary>
               </div>
@@ -193,62 +209,73 @@ export default function CortesiaForm() {
           )}
 
           {step === 3 && (
-            <div className="animate-fade-in-step">
-              <BtnBack onClick={() => setStep(2)} />
+            <div className={stepAnim}>
+              <BtnBack onClick={() => goTo(2)} />
               <StepTitle>Escolha o horário</StepTitle>
               <StepDesc>
                 {form.modalidade === "musculacao"
-                  ? "Seg a Sex: 07h–17h · Sábado: 09h–14h"
-                  : "Horários disponíveis para Cross Training"}
+                  ? "Horário livre — funcionamos todos os dias das 6h às 22h."
+                  : "Horários fixos das aulas de Cross Training."}
               </StepDesc>
 
               <HorarioGrid>
                 {horarios.map((h) => (
-                  <HorarioButton key={h} label={h} selected={form.horario === h} onClick={() => update("horario", h)} />
+                  <HorarioButton
+                    key={h.value}
+                    label={h.label}
+                    selected={form.horario === h.value}
+                    onClick={() => selectHorario(h.value)}
+                  />
                 ))}
               </HorarioGrid>
 
-              <BtnPrimary disabled={!step3Ok} onClick={() => setStep(4)}>
+              <BtnPrimary disabled={!step3Ok} onClick={() => goTo(4)}>
                 Continuar
               </BtnPrimary>
             </div>
           )}
 
           {step === 4 && (
-            <div className="animate-fade-in-step">
-              <BtnBack onClick={() => setStep(3)} />
+            <div className={stepAnim}>
+              <BtnBack onClick={() => goTo(3)} />
               <StepTitle>Escolha o dia</StepTitle>
               <StepDesc>
-                {form.modalidade === "cross"
-                  ? "Escolha o primeiro dia — suas 3 aulas consecutivas serão definidas automaticamente."
-                  : "Escolha o melhor dia para sua aula experimental."}
+                {crossSomenteSabado
+                  ? "Esse horário de Cross Training acontece apenas aos sábados."
+                  : form.modalidade === "cross"
+                    ? "Escolha o primeiro dia — suas 3 aulas consecutivas serão definidas automaticamente."
+                    : "Escolha o melhor dia para sua aula experimental."}
               </StepDesc>
 
               <div className="mb-5 grid grid-cols-3 gap-2">
-                {form.modalidade === "cross"
-                  ? Object.keys(DIAS_CONSECUTIVOS).map((d) => (
-                      <DiaButton
-                        key={d}
-                        label={d}
-                        sub={DIAS_CONSECUTIVOS[d].join(" · ")}
-                        selected={form.dia === d}
-                        onClick={() => selectDia(d)}
-                      />
-                    ))
-                  : DIAS_SEMANA.map((d) => (
-                      <DiaButton key={d} label={d} selected={form.dia === d} onClick={() => selectDia(d)} />
-                    ))}
+                {crossSomenteSabado ? (
+                  <DiaButton label="Sábado" selected={form.dia === "Sábado"} onClick={() => selectDia("Sábado")} />
+                ) : form.modalidade === "cross" ? (
+                  Object.keys(DIAS_CONSECUTIVOS).map((d) => (
+                    <DiaButton
+                      key={d}
+                      label={d}
+                      sub={DIAS_CONSECUTIVOS[d].join(" · ")}
+                      selected={form.dia === d}
+                      onClick={() => selectDia(d)}
+                    />
+                  ))
+                ) : (
+                  DIAS_SEMANA.map((d) => (
+                    <DiaButton key={d} label={d} selected={form.dia === d} onClick={() => selectDia(d)} />
+                  ))
+                )}
               </div>
 
-              <BtnPrimary disabled={!step4Ok} onClick={() => setStep(5)}>
+              <BtnPrimary disabled={!step4Ok} onClick={() => goTo(5)}>
                 Continuar
               </BtnPrimary>
             </div>
           )}
 
           {step === 5 && (
-            <div className="animate-fade-in-step">
-              <BtnBack onClick={() => setStep(4)} />
+            <div className={stepAnim}>
+              <BtnBack onClick={() => goTo(4)} />
               <StepTitle>Confirme seu agendamento</StepTitle>
               <StepDesc>Revise os dados antes de finalizar.</StepDesc>
 
@@ -257,7 +284,7 @@ export default function CortesiaForm() {
                 <ResumoItem label="Nome" value={form.nome.trim()} />
                 <ResumoItem label="WhatsApp" value={form.whatsapp} />
                 <ResumoItem label="CPF" value={form.cpf} />
-                <ResumoItem label="Horário" value={form.horario} />
+                <ResumoItem label="Horário" value={horarioLabel} />
                 <ResumoItem label="Dia(s)" value={diasStr} />
                 {form.limitacao && (
                   <ResumoItem label="Limitação" value={<span className="text-[var(--red)]">{form.limitacaoDesc || "Sim"}</span>} />
@@ -275,7 +302,7 @@ export default function CortesiaForm() {
           )}
 
           {step === "sucesso" && (
-            <div className="py-4 text-center">
+            <div className={`${stepAnim} py-4 text-center`}>
               <SuccessIcon />
               <SuccessTitle>Agendado!</SuccessTitle>
               <SuccessMsg>
@@ -286,14 +313,16 @@ export default function CortesiaForm() {
               <div className="mb-6 rounded-xl bg-[var(--off-white)] p-5 text-left">
                 {form.modalidade === "cross" ? (
                   <>
-                    <p className="mb-1 text-[0.82rem] text-[var(--gray)]">Seus 3 dias de treino:</p>
+                    <p className="mb-1 text-[0.82rem] text-[var(--gray)]">
+                      {crossSomenteSabado ? "Seu dia de treino:" : "Seus 3 dias de treino:"}
+                    </p>
                     <strong className="text-[0.95rem] text-[var(--blue)]">{diasConsecutivos.join(" · ")}</strong>
                     <br />
-                    <span className="text-[0.8rem] text-[var(--gray)]">Horário: {form.horario}</span>
+                    <span className="text-[0.8rem] text-[var(--gray)]">Horário: {horarioLabel}</span>
                   </>
                 ) : (
                   <p className="text-[0.82rem] text-[var(--gray)]">
-                    Data e horário: <strong className="text-[0.95rem] text-[var(--blue)]">{form.dia} às {form.horario}</strong>
+                    Data e horário: <strong className="text-[0.95rem] text-[var(--blue)]">{form.dia} às {horarioLabel}</strong>
                   </p>
                 )}
               </div>

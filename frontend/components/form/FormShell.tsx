@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 export function FormCard({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-[20px] bg-white p-[1.75rem] shadow-[0_4px_40px_rgba(26,58,107,0.12)]">
+    <div className="overflow-hidden rounded-[20px] bg-white p-[1.75rem] shadow-[0_20px_60px_rgba(26,58,107,0.18)]">
       {children}
     </div>
   );
@@ -26,20 +26,27 @@ export function FormHero({
 }) {
   return (
     <div className={`relative overflow-hidden px-6 text-center ${heroBgClassName}`}>
-      <span className="pointer-events-none absolute -right-20 -top-[60px] h-[320px] w-[320px] rounded-full bg-[var(--red)] opacity-[0.18]" />
-      <span className="pointer-events-none absolute -bottom-20 -left-[60px] h-[260px] w-[260px] rounded-full bg-[var(--blue-light)] opacity-25" />
+      <span className="animate-breathe pointer-events-none absolute -right-20 -top-[60px] h-[320px] w-[320px] rounded-full bg-[var(--red)] opacity-[0.18]" />
+      <span
+        className="animate-breathe pointer-events-none absolute -bottom-20 -left-[60px] h-[260px] w-[260px] rounded-full bg-[var(--blue-light)] opacity-25"
+        style={{ animationDelay: "1.2s" }}
+      />
       <Image
         src="/images/logo.png"
         alt="Academia Belfort"
         width={1005}
         height={334}
-        className="relative z-[1] mx-auto h-auto w-[220px]"
+        className="animate-fade-up relative z-[1] mx-auto h-auto w-[220px]"
       />
-      <p className="relative z-[1] mt-2 text-[0.85rem] font-medium uppercase tracking-[0.18em] text-white/60">
+      <p
+        className="animate-fade-up relative z-[1] mt-2 text-[0.85rem] font-medium uppercase tracking-[0.18em] text-white/60"
+        style={{ animationDelay: "0.1s" }}
+      >
         {subtitle}
       </p>
       <span
-        className={`relative z-[1] mt-6 inline-block rounded-full px-5 py-[0.45rem] text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-white ${tagBgClassName}`}
+        className={`animate-fade-up relative z-[1] mt-6 inline-block rounded-full px-5 py-[0.45rem] text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-white ${tagBgClassName}`}
+        style={{ animationDelay: "0.2s" }}
       >
         {tag}
       </span>
@@ -57,7 +64,7 @@ export function FormWrap({ children }: { children: ReactNode }) {
 
 export function SuccessIcon() {
   return (
-    <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--blue)] text-[1.8rem]">
+    <div className="animate-success-pop mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--blue)] text-[1.8rem] shadow-[0_10px_30px_rgba(13,31,60,0.35)]">
       ✅
     </div>
   );

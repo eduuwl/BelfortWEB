@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import StepsIndicator from "@/components/form/StepsIndicator";
+import FormNav from "@/components/form/FormNav";
 import {
   BtnBack,
   BtnPrimary,
@@ -76,9 +77,17 @@ const WHATSAPP_NUMERO = "5591984862479";
 
 export default function MatriculaForm() {
   const [step, setStep] = useState<Step>(1);
+  const [direction, setDirection] = useState<1 | -1>(1);
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState(false);
+
+  const stepAnim = direction === 1 ? "animate-step-fwd" : "animate-step-back";
+
+  function goTo(next: Step) {
+    setDirection(typeof step === "number" && typeof next === "number" && next < step ? -1 : 1);
+    setStep(next);
+  }
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -122,7 +131,7 @@ export default function MatriculaForm() {
 
   function goStep4() {
     setForm((f) => ({ ...f, planoId: null }));
-    setStep(4);
+    goTo(4);
   }
 
   async function handleSubmit() {
@@ -153,7 +162,7 @@ export default function MatriculaForm() {
       return;
     }
 
-    setStep("sucesso");
+    goTo("sucesso");
   }
 
   const whatsMsg = planoSelecionado
@@ -166,10 +175,11 @@ export default function MatriculaForm() {
 
   return (
     <FormPage bgClassName="bg-[var(--red)]">
+      <FormNav />
       <FormHero
         subtitle="Faça parte da família Belfort"
         tag="Pré-Cadastro"
-        heroBgClassName="bg-[var(--blue)] pb-20 pt-12"
+        heroBgClassName="bg-[var(--blue)] pb-20 pt-20"
         tagBgClassName="bg-[var(--red)]"
       />
 
@@ -178,7 +188,7 @@ export default function MatriculaForm() {
           {step !== "sucesso" && <StepsIndicator total={6} current={step as number} />}
 
           {step === 1 && (
-            <div className="animate-fade-in-step">
+            <div className={stepAnim}>
               <StepTitle>Dados pessoais</StepTitle>
               <StepDesc>Vamos começar com suas informações básicas.</StepDesc>
 
@@ -196,15 +206,15 @@ export default function MatriculaForm() {
                 placeholder="@seuperfil"
               />
 
-              <BtnPrimary disabled={!step1Ok} onClick={() => setStep(2)}>
+              <BtnPrimary disabled={!step1Ok} onClick={() => goTo(2)}>
                 Continuar →
               </BtnPrimary>
             </div>
           )}
 
           {step === 2 && (
-            <div className="animate-fade-in-step">
-              <BtnBack onClick={() => setStep(1)} />
+            <div className={stepAnim}>
+              <BtnBack onClick={() => goTo(1)} />
               <StepTitle>Saúde</StepTitle>
               <StepDesc>Possui alguma limitação física que devemos saber?</StepDesc>
 
@@ -219,15 +229,15 @@ export default function MatriculaForm() {
                 </div>
               )}
 
-              <BtnPrimary disabled={!step2Ok} onClick={() => setStep(3)}>
+              <BtnPrimary disabled={!step2Ok} onClick={() => goTo(3)}>
                 Continuar →
               </BtnPrimary>
             </div>
           )}
 
           {step === 3 && (
-            <div className="animate-fade-in-step">
-              <BtnBack onClick={() => setStep(2)} />
+            <div className={stepAnim}>
+              <BtnBack onClick={() => goTo(2)} />
               <StepTitle>Modalidade</StepTitle>
               <StepDesc>O que você quer praticar e onde?</StepDesc>
 
@@ -257,8 +267,8 @@ export default function MatriculaForm() {
           )}
 
           {step === 4 && (
-            <div className="animate-fade-in-step">
-              <BtnBack onClick={() => setStep(3)} />
+            <div className={stepAnim}>
+              <BtnBack onClick={() => goTo(3)} />
               <StepTitle>Horário &amp; Plano</StepTitle>
               <StepDesc>
                 {form.modalidade === "cross"
@@ -292,15 +302,15 @@ export default function MatriculaForm() {
                 ))}
               </div>
 
-              <BtnPrimary disabled={!step4Ok} onClick={() => setStep(5)}>
+              <BtnPrimary disabled={!step4Ok} onClick={() => goTo(5)}>
                 Continuar →
               </BtnPrimary>
             </div>
           )}
 
           {step === 5 && (
-            <div className="animate-fade-in-step">
-              <BtnBack onClick={() => setStep(4)} />
+            <div className={stepAnim}>
+              <BtnBack onClick={() => goTo(4)} />
               <StepTitle>Termo de adesão</StepTitle>
               <StepDesc>Leia o termo antes de continuar.</StepDesc>
 
@@ -339,15 +349,15 @@ export default function MatriculaForm() {
                 Li e aceito os termos de adesão da Academia Belfort
               </CheckboxLabel>
 
-              <BtnPrimary disabled={!form.aceite} onClick={() => setStep(6)}>
+              <BtnPrimary disabled={!form.aceite} onClick={() => goTo(6)}>
                 Continuar →
               </BtnPrimary>
             </div>
           )}
 
           {step === 6 && planoSelecionado && (
-            <div className="animate-fade-in-step">
-              <BtnBack onClick={() => setStep(5)} />
+            <div className={stepAnim}>
+              <BtnBack onClick={() => goTo(5)} />
               <StepTitle>Confirme seus dados</StepTitle>
               <StepDesc>Revise tudo antes de finalizar o pré-cadastro.</StepDesc>
 
@@ -377,7 +387,7 @@ export default function MatriculaForm() {
           )}
 
           {step === "sucesso" && planoSelecionado && (
-            <div className="py-4 text-center">
+            <div className={`${stepAnim} py-4 text-center`}>
               <SuccessIcon />
               <SuccessTitle>Pré-cadastro realizado!</SuccessTitle>
               <SuccessMsg>Olá {form.nome.trim().split(" ")[0]}! Seu pré-cadastro foi realizado com sucesso.</SuccessMsg>
