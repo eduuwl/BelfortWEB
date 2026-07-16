@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CheckCircleIcon, DocumentTextIcon } from "@heroicons/react/24/solid";
 import type { ReactNode } from "react";
 
 export function FormCard({ children }: { children: ReactNode }) {
@@ -64,8 +65,8 @@ export function FormWrap({ children }: { children: ReactNode }) {
 
 export function SuccessIcon() {
   return (
-    <div className="animate-success-pop mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--blue)] text-[1.8rem] shadow-[0_10px_30px_rgba(13,31,60,0.35)]">
-      ✅
+    <div className="animate-success-pop mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--blue)] shadow-[0_10px_30px_rgba(13,31,60,0.35)]">
+      <CheckCircleIcon className="h-9 w-9 text-white" />
     </div>
   );
 }
@@ -90,7 +91,10 @@ export function TermoBox({ children, pdfHref }: { children: ReactNode; pdfHref: 
   return (
     <div className="mb-4 overflow-hidden rounded-xl border-[1.5px] border-[var(--gray-light)]">
       <div className="flex items-center justify-between bg-[var(--blue)] px-4 py-[0.7rem] text-[0.82rem] font-semibold text-white">
-        <span>📄 Termo de Adesão — Academia Belfort</span>
+        <span className="flex items-center gap-1.5">
+          <DocumentTextIcon className="h-4 w-4" />
+          Termo de Adesão — Academia Belfort
+        </span>
         <a
           href={pdfHref}
           target="_blank"

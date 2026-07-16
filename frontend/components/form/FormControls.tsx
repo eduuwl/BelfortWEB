@@ -1,6 +1,9 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
+import type { ComponentType, ReactNode, SVGProps } from "react";
+
+export type IconType = ComponentType<SVGProps<SVGSVGElement>>;
 
 export function StepTitle({ children }: { children: ReactNode }) {
   return (
@@ -103,12 +106,12 @@ export function OptionGrid({ children }: { children: ReactNode }) {
 }
 
 export function OptionButton({
-  icon,
+  icon: Icon,
   label,
   selected,
   onClick,
 }: {
-  icon: string;
+  icon: IconType;
   label: string;
   selected: boolean;
   onClick: () => void;
@@ -123,11 +126,9 @@ export function OptionButton({
           : "border-[var(--gray-light)] bg-white hover:-translate-y-0.5 hover:border-[var(--blue-light)] hover:bg-[#EEF3FC] hover:shadow-[0_8px_20px_rgba(37,99,212,0.12)]"
       }`}
     >
-      <span
-        className={`mb-1.5 block text-2xl transition-transform duration-300 ${selected ? "scale-110 text-white/70" : "text-[var(--blue-light)]"}`}
-      >
-        {icon}
-      </span>
+      <Icon
+        className={`mx-auto mb-1.5 h-7 w-7 transition-transform duration-300 ${selected ? "scale-110 text-white/70" : "text-[var(--blue-light)]"}`}
+      />
       <span className="block text-[0.85rem] font-semibold">{label}</span>
     </button>
   );
@@ -276,7 +277,8 @@ export function BtnWhatsapp({ href }: { href: string }) {
       rel="noreferrer"
       className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] py-4 text-base font-semibold text-white transition-all hover:-translate-y-px hover:bg-[#1da851] hover:shadow-[0_10px_28px_rgba(37,211,102,0.35)] active:scale-[0.98]"
     >
-      💬 Falar com a Recepção
+      <ChatBubbleLeftRightIcon className="h-5 w-5" />
+      Falar com a Recepção
     </a>
   );
 }

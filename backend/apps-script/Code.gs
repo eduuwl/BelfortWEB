@@ -20,14 +20,14 @@
  * Implantar → Gerenciar implantações → ícone de lápis → Versão: "Nova versão" → Implantar.
  * A URL continua a mesma, não precisa trocar no backend.
  *
- * Importante: as colunas de cada aba são formatadas como texto puro (@) na criação, pra
- * evitar que o Sheets "adivinhe" que valores como "07:00", "20/07/2026" ou um WhatsApp
- * são hora/data/número e converta a célula sozinho. Se uma aba já existir de antes dessa
- * mudança, apague a aba pra ela ser recriada com a formatação certa.
+ * Importante: cada valor é gravado com um apóstrofo (') na frente, que é a forma padrão do
+ * Sheets de forçar "isso é texto puro, não tente adivinhar que é hora/data/número". Sem
+ * isso, valores como "07:00" ou "20/07/2026" viram data/hora sozinhos e voltam tortos na
+ * leitura. O apóstrofo não aparece no valor lido de volta (é só um marcador de entrada).
  */
 
 var SHARED_SECRET = 'TROQUE_ESTE_SEGREDO';
-var CODE_VERSION = 'v3-utf8-fix';
+var CODE_VERSION = 'v5-cref';
 
 var CORTESIA_HEADERS = [
   'timestamp', 'nome', 'whatsapp', 'email', 'cpf', 'modalidade', 'horario', 'dia', 'datasAula', 'limitacao',
@@ -35,7 +35,7 @@ var CORTESIA_HEADERS = [
 
 var MATRICULA_HEADERS = [
   'timestamp', 'nome', 'nascimento', 'email', 'cpf', 'endereco', 'whatsapp',
-  'instagram', 'limitacao', 'modalidade', 'unidade', 'horario', 'plano', 'aceite',
+  'instagram', 'limitacao', 'modalidade', 'unidade', 'horario', 'cref', 'plano', 'aceite',
 ];
 
 function doPost(e) {
@@ -48,7 +48,8 @@ function doPost(e) {
 
     var sheet = getOrCreateSheet(sheetName, headers);
     var row = headers.map(function (key) {
-      return data[key] !== undefined ? String(data[key]) : '';
+      var value = data[key] !== undefined ? String(data[key]) : '';
+      return "'" + value;
     });
     sheet.appendRow(row);
 

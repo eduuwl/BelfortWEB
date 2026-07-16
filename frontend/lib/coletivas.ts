@@ -1,3 +1,18 @@
+import {
+  ArrowUpCircleIcon,
+  FireIcon,
+  HandRaisedIcon,
+  HeartIcon,
+  MusicalNoteIcon,
+  RocketLaunchIcon,
+  SparklesIcon,
+  Squares2X2Icon,
+  StarIcon,
+  BoltIcon,
+  TrophyIcon,
+} from "@heroicons/react/24/solid";
+import type { IconType } from "@/components/form/FormControls";
+
 export type ColetivaSlug =
   | "fitdance"
   | "pilates"
@@ -13,23 +28,23 @@ export type ColetivaSlug =
 
 export interface Coletiva {
   slug: ColetivaSlug;
-  icon: string;
+  icon: IconType;
   nome: string;
   desc: string;
 }
 
 export const COLETIVAS: Coletiva[] = [
-  { slug: "fitdance", icon: "💃", nome: "Fit Dance", desc: "Dança fitness divertida e queima calorias" },
-  { slug: "pilates", icon: "🧘", nome: "Pilates de Solo", desc: "Fortalecimento e flexibilidade" },
-  { slug: "boxe", icon: "🥊", nome: "Boxe", desc: "Técnica, condicionamento e autodefesa" },
-  { slug: "muaythai", icon: "🦵", nome: "Muay Thai", desc: "Arte marcial completa e eficiente" },
-  { slug: "ritmos", icon: "🎵", nome: "Ritmos", desc: "Aeróbico com ritmos e muita energia" },
-  { slug: "ritbox", icon: "⚡", nome: "Ritbox", desc: "Boxe com ritmo e intensidade" },
-  { slug: "funcional", icon: "🏃", nome: "Funcional", desc: "Treino completo com o peso do corpo" },
-  { slug: "danca", icon: "🕺", nome: "Dança de Salão", desc: "Elegância, ritmo e socialização" },
-  { slug: "corrida", icon: "👟", nome: "Corrida de Rua", desc: "Preparação para provas e condicionamento" },
-  { slug: "jump", icon: "🦘", nome: "Jump", desc: "Mini trampolim para queimar calorias" },
-  { slug: "powermix", icon: "💥", nome: "Power Mix", desc: "Combinação de musculação e cardio" },
+  { slug: "fitdance", icon: MusicalNoteIcon, nome: "Fit Dance", desc: "Dança fitness divertida e queima calorias" },
+  { slug: "pilates", icon: SparklesIcon, nome: "Pilates de Solo", desc: "Fortalecimento e flexibilidade" },
+  { slug: "boxe", icon: HandRaisedIcon, nome: "Boxe", desc: "Técnica, condicionamento e autodefesa" },
+  { slug: "muaythai", icon: FireIcon, nome: "Muay Thai", desc: "Arte marcial completa e eficiente" },
+  { slug: "ritmos", icon: StarIcon, nome: "Ritmos", desc: "Aeróbico com ritmos e muita energia" },
+  { slug: "ritbox", icon: BoltIcon, nome: "Ritbox", desc: "Boxe com ritmo e intensidade" },
+  { slug: "funcional", icon: TrophyIcon, nome: "Funcional", desc: "Treino completo com o peso do corpo" },
+  { slug: "danca", icon: HeartIcon, nome: "Dança de Salão", desc: "Elegância, ritmo e socialização" },
+  { slug: "corrida", icon: RocketLaunchIcon, nome: "Corrida de Rua", desc: "Preparação para provas e condicionamento" },
+  { slug: "jump", icon: ArrowUpCircleIcon, nome: "Jump", desc: "Mini trampolim para queimar calorias" },
+  { slug: "powermix", icon: Squares2X2Icon, nome: "Power Mix", desc: "Combinação de musculação e cardio" },
 ];
 
 export const COLETIVA_COLORS: Record<ColetivaSlug, { bg: string; border: string; text: string }> = {

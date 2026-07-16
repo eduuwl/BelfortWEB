@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { BoltIcon, ExclamationTriangleIcon, FaceSmileIcon, FireIcon } from "@heroicons/react/24/solid";
 import StepsIndicator from "@/components/form/StepsIndicator";
 import FormNav from "@/components/form/FormNav";
 import {
@@ -29,7 +30,14 @@ import {
   SuccessTitle,
 } from "@/components/form/FormShell";
 import { cpfValido, isValidEmail, maskCPF, maskPhone } from "@/lib/validators";
-import { DIAS_CONSECUTIVOS, DIAS_SEMANA, HORARIOS_CROSS, HORARIOS_MUSC } from "@/lib/horarios";
+import {
+  DIAS_CONSECUTIVOS,
+  DIAS_KIDS,
+  DIAS_SEMANA,
+  HORARIOS_CROSS,
+  HORARIOS_KIDS,
+  HORARIOS_MUSC,
+} from "@/lib/horarios";
 import { proximasDatas } from "@/lib/dateUtils";
 import { submitCortesia } from "@/lib/api";
 import { clearFormPersistence, useFormPersistence } from "@/lib/useFormPersistence";
@@ -65,6 +73,18 @@ const INITIAL_STATE: FormState = {
 };
 
 const WHATSAPP_NUMERO = "5591984862479";
+
+function modalidadeLabel(m: Modalidade | null): string {
+  if (m === "musculacao") return "Musculação";
+  if (m === "cross") return "Cross Training";
+  if (m === "kids") return "Funcional Kids";
+  return "";
+}
+
+// Aos sábados a academia funciona só das 8h às 16h.
+function horarioValidoNoSabado(horario: string | null): boolean {
+  return horario !== null && horario >= "08:00" && horario <= "16:00";
+}
 
 export default function CortesiaForm() {
   const [step, setStep] = useState<Step>(1);
@@ -106,7 +126,8 @@ export default function CortesiaForm() {
     cpfValido(form.cpf) &&
     form.limitacao !== null;
 
-  const horarios = form.modalidade === "musculacao" ? HORARIOS_MUSC : HORARIOS_CROSS;
+  const horarios =
+    form.modalidade === "musculacao" ? HORARIOS_MUSC : form.modalidade === "kids" ? HORARIOS_KIDS : HORARIOS_CROSS;
   const horarioSelecionado = horarios.find((h) => h.value === form.horario);
   const crossSomenteSabado = form.modalidade === "cross" && horarioSelecionado?.somenteSabado === true;
   const step3Ok = form.horario !== null;
@@ -145,7 +166,7 @@ export default function CortesiaForm() {
       whatsapp: form.whatsapp.trim(),
       email: form.email.trim(),
       cpf: form.cpf.trim(),
-      modalidade: form.modalidade === "musculacao" ? "Musculação" : "Cross Training",
+      modalidade: modalidadeLabel(form.modalidade),
       horario: horarioLabel,
       dia: diasStr,
       datasAula,
@@ -165,9 +186,9 @@ export default function CortesiaForm() {
   }
 
   const whatsMsg = encodeURIComponent(
-    `Olá! Acabei de agendar minha aula de cortesia de ${
-      form.modalidade === "musculacao" ? "Musculação" : "Cross Training"
-    } na Academia Belfort para ${diasStr} às ${horarioLabel}. Nome: ${form.nome.trim()}`,
+    `Olá! Acabei de agendar minha aula de cortesia de ${modalidadeLabel(
+      form.modalidade,
+    )} na Academia Belfort para ${diasStr} às ${horarioLabel}. Nome: ${form.nome.trim()}`,
   );
 
   return (
@@ -208,8 +229,9 @@ export default function CortesiaForm() {
               <StepDesc>Qual aula de cortesia você quer experimentar?</StepDesc>
 
               <OptionGrid>
-                <OptionButton icon="🏋️" label="Musculação" selected={form.modalidade === "musculacao"} onClick={() => selectModalidade("musculacao")} />
-                <OptionButton icon="⚡" label="Cross Training" selected={form.modalidade === "cross"} onClick={() => selectModalidade("cross")} />
+                <OptionButton icon={FireIcon} label="Musculação" selected={form.modalidade === "musculacao"} onClick={() => selectModalidade("musculacao")} />
+                <OptionButton icon={BoltIcon} label="Cross Training" selected={form.modalidade === "cross"} onClick={() => selectModalidade("cross")} />
+                <OptionButton icon={FaceSmileIcon} label="Funcional Kids" selected={form.modalidade === "kids"} onClick={() => selectModalidade("kids")} />
               </OptionGrid>
 
               <BtnPrimary disabled={!step1Ok} onClick={() => goTo(2)}>
@@ -265,8 +287,10 @@ export default function CortesiaForm() {
               <StepTitle>Escolha o horário</StepTitle>
               <StepDesc>
                 {form.modalidade === "musculacao"
-                  ? "Horário livre — funcionamos todos os dias das 6h às 22h."
-                  : "Horários fixos das aulas de Cross Training."}
+                  ? "Horário livre — Seg a Sex: 6h às 22h · Sáb: 8h às 16h."
+                  : form.modalidade === "kids"
+                    ? "Turma única de Funcional Kids, na unidade Telégrafo."
+                    : "Horários fixos das aulas de Cross Training."}
               </StepDesc>
 
               <HorarioGrid>
@@ -295,7 +319,11 @@ export default function CortesiaForm() {
                   ? "Esse horário de Cross Training acontece apenas aos sábados."
                   : form.modalidade === "cross"
                     ? "Escolha o primeiro dia — suas 3 aulas consecutivas serão definidas automaticamente."
-                    : "Escolha o melhor dia para sua aula experimental."}
+                    : form.modalidade === "kids"
+                      ? "A turma acontece segunda, quarta e sexta — escolha o dia da sua aula experimental."
+                      : form.modalidade === "musculacao" && !horarioValidoNoSabado(form.horario)
+                        ? "Escolha o melhor dia para sua aula experimental (aos sábados funcionamos só das 8h às 16h)."
+                        : "Escolha o melhor dia para sua aula experimental."}
               </StepDesc>
 
               <div className="mb-5 grid grid-cols-3 gap-2">
@@ -311,8 +339,12 @@ export default function CortesiaForm() {
                       onClick={() => selectDia(d)}
                     />
                   ))
+                ) : form.modalidade === "kids" ? (
+                  DIAS_KIDS.map((d) => (
+                    <DiaButton key={d} label={d} selected={form.dia === d} onClick={() => selectDia(d)} />
+                  ))
                 ) : (
-                  DIAS_SEMANA.map((d) => (
+                  DIAS_SEMANA.filter((d) => d !== "Sábado" || horarioValidoNoSabado(form.horario)).map((d) => (
                     <DiaButton key={d} label={d} selected={form.dia === d} onClick={() => selectDia(d)} />
                   ))
                 )}
@@ -331,7 +363,7 @@ export default function CortesiaForm() {
               <StepDesc>Revise os dados antes de finalizar.</StepDesc>
 
               <div className="mb-6">
-                <ResumoItem label="Modalidade" value={form.modalidade === "musculacao" ? "🏋️ Musculação" : "⚡ Cross Training"} />
+                <ResumoItem label="Modalidade" value={modalidadeLabel(form.modalidade)} />
                 <ResumoItem label="Nome" value={form.nome.trim()} />
                 <ResumoItem label="WhatsApp" value={form.whatsapp} />
                 <ResumoItem label="E-mail" value={form.email.trim()} />
@@ -356,8 +388,8 @@ export default function CortesiaForm() {
               <SuccessIcon />
               <SuccessTitle>Agendado!</SuccessTitle>
               <SuccessMsg>
-                Olá {form.nome.trim().split(" ")[0]}! Sua aula de{" "}
-                {form.modalidade === "musculacao" ? "Musculação" : "Cross Training"} foi agendada com sucesso.
+                Olá {form.nome.trim().split(" ")[0]}! Sua aula de {modalidadeLabel(form.modalidade)} foi agendada com
+                sucesso.
               </SuccessMsg>
 
               <div className="mb-6 rounded-xl bg-[var(--off-white)] p-5 text-left">
@@ -377,9 +409,11 @@ export default function CortesiaForm() {
                 )}
               </div>
 
-              <div className="mb-6 rounded-xl bg-[#FEF3F2] p-4 text-center text-[0.82rem] leading-relaxed text-[var(--red-dark)]">
-                ⚠️ Tolerância de até <strong>10 minutos</strong> de atraso. Após esse tempo, sua vaga pode ser
-                perdida.
+              <div className="mb-6 flex items-start justify-center gap-2 rounded-xl bg-[#FEF3F2] p-4 text-center text-[0.82rem] leading-relaxed text-[var(--red-dark)]">
+                <ExclamationTriangleIcon className="mt-0.5 h-4 w-4 shrink-0" />
+                <span>
+                  Tolerância de até <strong>10 minutos</strong> de atraso. Após esse tempo, sua vaga pode ser perdida.
+                </span>
               </div>
 
               <BtnWhatsapp href={`https://wa.me/${WHATSAPP_NUMERO}?text=${whatsMsg}`} />

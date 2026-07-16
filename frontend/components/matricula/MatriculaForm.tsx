@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AcademicCapIcon, BoltIcon, ExclamationTriangleIcon, FaceSmileIcon, FireIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import StepsIndicator from "@/components/form/StepsIndicator";
 import FormNav from "@/components/form/FormNav";
 import {
@@ -34,7 +35,13 @@ import {
   TermoBox,
 } from "@/components/form/FormShell";
 import { cpfValido, formatDate, isValidEmail, maskCPF, maskPhone } from "@/lib/validators";
-import { HORARIOS_CROSS_MATRICULA, PLANOS, type Modalidade, type Unidade } from "@/lib/planos";
+import {
+  HORARIOS_CROSS_MATRICULA,
+  PLANOS,
+  UNIDADES_POR_MODALIDADE,
+  type Modalidade,
+  type Unidade,
+} from "@/lib/planos";
 import { submitMatricula } from "@/lib/api";
 import { clearFormPersistence, useFormPersistence } from "@/lib/useFormPersistence";
 import { trackEvent } from "@/lib/analytics";
@@ -56,6 +63,7 @@ interface FormState {
   modalidade: Modalidade | null;
   unidade: Unidade | null;
   horario: string | null;
+  crefPersonal: string;
   planoId: string | null;
   aceite: boolean;
 }
@@ -73,11 +81,29 @@ const INITIAL_STATE: FormState = {
   modalidade: null,
   unidade: null,
   horario: null,
+  crefPersonal: "",
   planoId: null,
   aceite: false,
 };
 
 const WHATSAPP_NUMERO = "5591984862479";
+
+function modalidadeLabel(m: Modalidade | null): string {
+  if (m === "musculacao") return "Musculação";
+  if (m === "cross") return "Cross Training";
+  if (m === "kids") return "Funcional Kids";
+  if (m === "personal") return "Personal Trainer";
+  return "";
+}
+
+const HORARIO_KIDS_INFO = "Segunda, Quarta e Sexta às 17h";
+
+function horarioParaEnvio(m: Modalidade | null, horario: string | null): string {
+  if (m === "cross") return horario ?? "";
+  if (m === "kids") return HORARIO_KIDS_INFO;
+  if (m === "personal") return "A combinar com o profissional";
+  return "Livre";
+}
 
 export default function MatriculaForm() {
   const [step, setStep] = useState<Step>(1);
@@ -120,11 +146,13 @@ export default function MatriculaForm() {
 
   const step2Ok = form.limitacao !== null;
 
-  const bloqueadoCrossSacramenta = form.unidade === "sacramenta" && form.modalidade === "cross";
-  const step3Ok = Boolean(form.modalidade && form.unidade) && !bloqueadoCrossSacramenta;
+  const unidadeIndisponivel =
+    form.modalidade !== null && form.unidade !== null && !UNIDADES_POR_MODALIDADE[form.modalidade].includes(form.unidade);
+  const step3Ok = Boolean(form.modalidade && form.unidade) && !unidadeIndisponivel;
 
-  const horarioOk = form.modalidade === "musculacao" || form.horario !== null;
-  const step4Ok = horarioOk && form.planoId !== null;
+  const horarioOk = form.modalidade !== "cross" || form.horario !== null;
+  const crefOk = form.modalidade !== "personal" || form.crefPersonal.trim().length >= 4;
+  const step4Ok = horarioOk && crefOk && form.planoId !== null;
 
   const planosDisponiveis =
     form.modalidade && form.unidade ? PLANOS[form.modalidade][form.unidade] : [];
@@ -137,7 +165,7 @@ export default function MatriculaForm() {
   function selectUnidade(u: Unidade) {
     setForm((f) => {
       const next = { ...f, unidade: u };
-      if (u === "sacramenta" && f.modalidade === "cross") {
+      if (f.modalidade && !UNIDADES_POR_MODALIDADE[f.modalidade].includes(u)) {
         next.modalidade = null;
         next.planoId = null;
       }
@@ -164,9 +192,10 @@ export default function MatriculaForm() {
       whatsapp: form.whatsapp.trim(),
       instagram: form.instagram.trim() || "-",
       limitacao: form.limitacao ? form.limitacaoDesc.trim() || "Sim" : "Não",
-      modalidade: form.modalidade === "musculacao" ? "Musculação" : "Cross Training",
+      modalidade: modalidadeLabel(form.modalidade),
       unidade: form.unidade === "telegrafo" ? "Telégrafo" : "Sacramenta",
-      horario: form.horario ?? "Livre",
+      horario: horarioParaEnvio(form.modalidade, form.horario),
+      cref: form.modalidade === "personal" ? form.crefPersonal.trim() : "",
       plano: `${planoSelecionado.nome} — ${planoSelecionado.preco}`,
       aceite: "Sim",
     });
@@ -185,9 +214,9 @@ export default function MatriculaForm() {
 
   const whatsMsg = planoSelecionado
     ? encodeURIComponent(
-        `Olá! Acabei de realizar meu pré-cadastro na Academia Belfort. Nome: ${form.nome.trim()} | Modalidade: ${
-          form.modalidade === "musculacao" ? "Musculação" : "Cross Training"
-        } | Plano: ${planoSelecionado.nome} | Unidade: ${form.unidade === "telegrafo" ? "Telégrafo" : "Sacramenta"}`,
+        `Olá! Acabei de realizar meu pré-cadastro na Academia Belfort. Nome: ${form.nome.trim()} | Modalidade: ${modalidadeLabel(
+          form.modalidade,
+        )} | Plano: ${planoSelecionado.nome} | Unidade: ${form.unidade === "telegrafo" ? "Telégrafo" : "Sacramenta"}`,
       )
     : "";
 
@@ -278,20 +307,26 @@ export default function MatriculaForm() {
 
               <FieldLabel>Modalidade *</FieldLabel>
               <OptionGrid>
-                <OptionButton icon="🏋️" label="Musculação" selected={form.modalidade === "musculacao"} onClick={() => selectModalidade("musculacao")} />
-                <OptionButton icon="⚡" label="Cross Training" selected={form.modalidade === "cross"} onClick={() => selectModalidade("cross")} />
+                <OptionButton icon={FireIcon} label="Musculação" selected={form.modalidade === "musculacao"} onClick={() => selectModalidade("musculacao")} />
+                <OptionButton icon={BoltIcon} label="Cross Training" selected={form.modalidade === "cross"} onClick={() => selectModalidade("cross")} />
+                <OptionButton icon={FaceSmileIcon} label="Funcional Kids" selected={form.modalidade === "kids"} onClick={() => selectModalidade("kids")} />
+                <OptionButton icon={AcademicCapIcon} label="Personal Trainer" selected={form.modalidade === "personal"} onClick={() => selectModalidade("personal")} />
               </OptionGrid>
 
               <FieldLabel>Unidade *</FieldLabel>
               <OptionGrid>
-                <OptionButton icon="📍" label="Telégrafo" selected={form.unidade === "telegrafo"} onClick={() => selectUnidade("telegrafo")} />
-                <OptionButton icon="📍" label="Sacramenta" selected={form.unidade === "sacramenta"} onClick={() => selectUnidade("sacramenta")} />
+                <OptionButton icon={MapPinIcon} label="Telégrafo" selected={form.unidade === "telegrafo"} onClick={() => selectUnidade("telegrafo")} />
+                <OptionButton icon={MapPinIcon} label="Sacramenta" selected={form.unidade === "sacramenta"} onClick={() => selectUnidade("sacramenta")} />
               </OptionGrid>
 
-              {bloqueadoCrossSacramenta && (
-                <div className="mb-4 rounded-[10px] border-[1.5px] border-[var(--red)] bg-[#FEF3F2] p-4 text-[0.83rem] leading-relaxed text-[var(--red-dark)]">
-                  ⚠️ <strong>Cross Training</strong> não está disponível na unidade Sacramenta. Por favor, selecione
-                  Musculação ou escolha a unidade Telégrafo.
+              {unidadeIndisponivel && (
+                <div className="mb-4 flex items-start gap-2 rounded-[10px] border-[1.5px] border-[var(--red)] bg-[#FEF3F2] p-4 text-[0.83rem] leading-relaxed text-[var(--red-dark)]">
+                  <ExclamationTriangleIcon className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>
+                    <strong>{modalidadeLabel(form.modalidade)}</strong> não está disponível na unidade{" "}
+                    {form.unidade === "telegrafo" ? "Telégrafo" : "Sacramenta"}. Escolha outra combinação de
+                    modalidade e unidade.
+                  </span>
                 </div>
               )}
 
@@ -308,7 +343,11 @@ export default function MatriculaForm() {
               <StepDesc>
                 {form.modalidade === "cross"
                   ? "Escolha seu horário preferido e o plano desejado."
-                  : "Musculação tem horário livre. Escolha seu plano."}
+                  : form.modalidade === "kids"
+                    ? `Turma única: ${HORARIO_KIDS_INFO}, na unidade Telégrafo.`
+                    : form.modalidade === "personal"
+                      ? "O horário é combinado direto com o profissional. Informe o CREF dele abaixo."
+                      : "Musculação tem horário livre. Escolha seu plano."}
               </StepDesc>
 
               {form.modalidade === "cross" && (
@@ -320,6 +359,15 @@ export default function MatriculaForm() {
                     ))}
                   </HorarioGrid>
                 </>
+              )}
+
+              {form.modalidade === "personal" && (
+                <FieldInput
+                  label="CREF do profissional *"
+                  value={form.crefPersonal}
+                  onChange={(v) => update("crefPersonal", v)}
+                  placeholder="Ex: 123456-G/PA"
+                />
               )}
 
               <FieldLabel>Escolha seu plano *</FieldLabel>
@@ -405,9 +453,11 @@ export default function MatriculaForm() {
                 <ResumoItem label="WhatsApp" value={form.whatsapp} />
                 {form.instagram && <ResumoItem label="Instagram" value={form.instagram} />}
                 <ResumoItem label="Limitação" value={form.limitacao ? form.limitacaoDesc.trim() || "Sim" : "Não"} />
-                <ResumoItem label="Modalidade" value={form.modalidade === "musculacao" ? "🏋️ Musculação" : "⚡ Cross Training"} />
+                <ResumoItem label="Modalidade" value={modalidadeLabel(form.modalidade)} />
                 <ResumoItem label="Unidade" value={form.unidade === "telegrafo" ? "Telégrafo" : "Sacramenta"} />
                 {form.modalidade === "cross" && <ResumoItem label="Horário" value={form.horario} />}
+                {form.modalidade === "kids" && <ResumoItem label="Horário" value={HORARIO_KIDS_INFO} />}
+                {form.modalidade === "personal" && <ResumoItem label="CREF" value={form.crefPersonal.trim()} />}
                 <ResumoItem label="Plano" value={`${planoSelecionado.nome} — ${planoSelecionado.preco}`} />
               </div>
 
@@ -425,12 +475,12 @@ export default function MatriculaForm() {
               <SuccessTitle>Pré-cadastro realizado!</SuccessTitle>
               <SuccessMsg>Olá {form.nome.trim().split(" ")[0]}! Seu pré-cadastro foi realizado com sucesso.</SuccessMsg>
               <SuccessBox>
-                <strong>{form.modalidade === "musculacao" ? "Musculação" : "Cross Training"}</strong> ·{" "}
+                <strong>{modalidadeLabel(form.modalidade)}</strong> ·{" "}
                 {form.unidade === "telegrafo" ? "Telégrafo" : "Sacramenta"}
                 <br />
                 Plano: {planoSelecionado.nome}
                 <br />
-                {form.modalidade === "cross" ? `Horário: ${form.horario}` : "Horário: Livre"}
+                Horário: {horarioParaEnvio(form.modalidade, form.horario)}
               </SuccessBox>
               <div className="mb-6 rounded-xl bg-[#EEF3FC] p-4 text-center text-[0.82rem] leading-relaxed text-[var(--blue)]">
                 Nossa equipe entrará em contato pelo WhatsApp para confirmar sua matrícula e informar os próximos

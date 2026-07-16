@@ -1,3 +1,4 @@
+import { BoltIcon, ChatBubbleLeftRightIcon, ClockIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import Reveal from "@/components/ui/Reveal";
 import { UNIDADES } from "@/lib/unidades";
 
@@ -30,16 +31,17 @@ export default function Unidades() {
 
                 <div className="mb-8 flex flex-col gap-2.5">
                   <div className="flex items-start gap-2.5 text-[0.88rem] leading-snug text-white/60">
+                    <MapPinIcon className="mt-px h-4 w-4 shrink-0" />
                     <span>
                       {u.logradouro} - {u.bairroNome}, {u.cidade} - {u.estado}
                     </span>
                   </div>
                   <div className="flex items-start gap-2.5 text-[0.88rem] leading-snug text-white/60">
-                    <span className="mt-px shrink-0 text-base">🕐</span>
+                    <ClockIcon className="mt-px h-4 w-4 shrink-0" />
                     <span>{u.horario}</span>
                   </div>
                   <div className="flex items-start gap-2.5 text-[0.88rem] leading-snug text-white/60">
-                    <span className="mt-px shrink-0 text-base">⚡</span>
+                    <BoltIcon className="mt-px h-4 w-4 shrink-0" />
                     <span>{u.modalidades}</span>
                   </div>
                 </div>
@@ -50,7 +52,8 @@ export default function Unidades() {
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 rounded-lg bg-[#25D366] px-6 py-[0.7rem] text-[0.82rem] font-bold uppercase tracking-[0.06em] text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_25px_rgba(37,211,102,0.4)] active:scale-95 hover:bg-[#1da851]"
                 >
-                  💬 WhatsApp
+                  <ChatBubbleLeftRightIcon className="h-4 w-4" />
+                  WhatsApp
                 </a>
               </div>
             </Reveal>

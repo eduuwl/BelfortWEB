@@ -5,10 +5,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const LINKS = [
-  { href: "#modalidades", label: "Modalidades" },
-  { href: "#planos", label: "Planos" },
-  { href: "#unidades", label: "Unidades" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/#modalidades", label: "Modalidades" },
+  { href: "/#planos", label: "Planos" },
+  { href: "/#unidades", label: "Unidades" },
+  { href: "/#faq", label: "FAQ" },
 ];
 
 export default function Nav() {
@@ -44,15 +44,24 @@ export default function Nav() {
         <ul className="hidden md:flex items-center gap-8 list-none">
           {LINKS.map((l) => (
             <li key={l.href}>
-              <a
+              <Link
                 href={l.href}
                 className="group relative text-[0.82rem] font-medium tracking-[0.1em] uppercase text-white/70 transition-colors hover:text-white"
               >
                 {l.label}
                 <span className="absolute -bottom-1 left-0 h-[1.5px] w-0 bg-[var(--red-glow)] transition-all duration-300 group-hover:w-full" />
-              </a>
+              </Link>
             </li>
           ))}
+          <li>
+            <Link
+              href="/galeria"
+              className="group relative text-[0.82rem] font-medium tracking-[0.1em] uppercase text-white/70 transition-colors hover:text-white"
+            >
+              Galeria
+              <span className="absolute -bottom-1 left-0 h-[1.5px] w-0 bg-[var(--red-glow)] transition-all duration-300 group-hover:w-full" />
+            </Link>
+          </li>
           <li>
             <Link
               href="/matricula"
@@ -85,15 +94,22 @@ export default function Nav() {
           ✕
         </span>
         {LINKS.map((l) => (
-          <a
+          <Link
             key={l.href}
             href={l.href}
             onClick={() => setMenuOpen(false)}
             className="font-heading text-[2.5rem] tracking-[0.06em] text-white transition-colors hover:text-[var(--red)]"
           >
             {l.label}
-          </a>
+          </Link>
         ))}
+        <Link
+          href="/galeria"
+          onClick={() => setMenuOpen(false)}
+          className="font-heading text-[2.5rem] tracking-[0.06em] text-white transition-colors hover:text-[var(--red)]"
+        >
+          Galeria
+        </Link>
         <Link
           href="/cortesia"
           onClick={() => setMenuOpen(false)}

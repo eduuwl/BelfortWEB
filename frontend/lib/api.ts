@@ -12,6 +12,7 @@ export interface MatriculaPayload {
   modalidade: string;
   unidade: string;
   horario: string;
+  cref: string;
   plano: string;
   aceite: string;
 }

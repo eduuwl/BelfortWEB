@@ -15,7 +15,8 @@ function gerarSlots(inicioHora: number, fimHora: number, passoMinutos: number): 
   return slots;
 }
 
-// Academia funciona das 6h às 22h — musculação tem horário livre nesse intervalo.
+// Musculação tem horário livre das 6h às 22h (seg a sex). Aos sábados a academia fecha às
+// 16h — ver horarioValidoNoSabado no CortesiaForm, que filtra o dia "Sábado" de acordo.
 export const HORARIOS_MUSC: HorarioSlot[] = gerarSlots(6, 22, 30);
 
 // Cross Training tem aulas em horários fixos. A de 10h só acontece aos sábados.
@@ -28,6 +29,11 @@ export const HORARIOS_CROSS: HorarioSlot[] = [
   { value: '19:30', label: '19:30 – 20:30' },
   { value: '20:30', label: '20:30 – 21:30' },
 ];
+
+// Funcional Kids tem uma única turma fixa, só na unidade Telégrafo.
+export const HORARIOS_KIDS: HorarioSlot[] = [{ value: '17:00', label: '17:00 – 18:00 (Seg, Qua e Sex)' }];
+
+export const DIAS_KIDS = ['Segunda', 'Quarta', 'Sexta'];
 
 export const DIAS_SEMANA = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 

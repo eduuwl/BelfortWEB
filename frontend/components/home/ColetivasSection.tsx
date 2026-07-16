@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { MapPinIcon } from "@heroicons/react/24/solid";
 import {
   COLETIVAS,
   COLETIVA_COLORS,
@@ -80,15 +81,17 @@ export default function ColetivasSection() {
         <div className="mb-12 grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-3">
           {COLETIVAS.map((c, i) => {
             const color = COLETIVA_COLORS[c.slug];
+            const Icon = c.icon;
             return (
               <Reveal key={c.slug} delay={i * 50} y={16}>
                 <div
                   className="group h-full cursor-pointer rounded-[14px] border px-4 py-[1.4rem] text-center shadow-black/10 transition-all hover:-translate-y-1.5 hover:shadow-[0_16px_34px_rgba(0,0,0,0.35)]"
                   style={{ background: color.bg, borderColor: color.border }}
                 >
-                  <div className="mb-2 text-3xl transition-transform duration-300 group-hover:scale-125">
-                    {c.icon}
-                  </div>
+                  <Icon
+                    className="mx-auto mb-2 h-8 w-8 transition-transform duration-300 group-hover:scale-125"
+                    style={{ color: color.text }}
+                  />
                   <div className="font-heading text-[1.1rem] tracking-[0.06em]">{c.nome}</div>
                   <div className="mt-1 text-[0.72rem] leading-snug text-white/50">{c.desc}</div>
                 </div>
@@ -130,13 +133,14 @@ export default function ColetivasSection() {
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className={`rounded-lg border-[1.5px] px-5 py-2 text-[0.82rem] font-semibold uppercase tracking-[0.08em] transition-all ${
+                  className={`flex items-center gap-1.5 rounded-lg border-[1.5px] px-5 py-2 text-[0.82rem] font-semibold uppercase tracking-[0.08em] transition-all ${
                     tab === t
                       ? "border-[var(--red)] bg-[var(--red)] text-white"
                       : "border-white/15 bg-transparent text-white/50"
                   }`}
                 >
-                  📍 {t === "telegrafo" ? "Telégrafo" : "Sacramenta"}
+                  <MapPinIcon className="h-4 w-4" />
+                  {t === "telegrafo" ? "Telégrafo" : "Sacramenta"}
                 </button>
               ))}
             </div>

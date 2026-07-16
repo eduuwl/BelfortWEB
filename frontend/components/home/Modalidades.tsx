@@ -1,17 +1,41 @@
+import { AcademicCapIcon, BoltIcon, FaceSmileIcon, FireIcon } from "@heroicons/react/24/solid";
 import Reveal from "@/components/ui/Reveal";
+import type { IconType } from "@/components/form/FormControls";
 
-const MODALIDADES = [
+const MODALIDADES: {
+  icon: IconType;
+  nome: string;
+  desc: string;
+  horarios: string[];
+  cta: { label: string; href: string };
+}[] = [
   {
-    icon: "🏋️",
+    icon: FireIcon,
     nome: "Musculação",
     desc: "Treino com pesos para ganho de massa, emagrecimento e condicionamento. Horário livre para você treinar no seu ritmo, todos os dias.",
-    horarios: ["Todos os dias · 6h–22h", "Horário livre"],
+    horarios: ["Seg a Sex · 6h–22h", "Sáb · 8h–16h", "Horário livre"],
+    cta: { label: "Agendar aula grátis →", href: "/cortesia" },
   },
   {
-    icon: "⚡",
+    icon: BoltIcon,
     nome: "Cross Training",
     desc: "Treino funcional de alta intensidade com aulas em grupo. 3 aulas consecutivas na aula de cortesia para você sentir a energia da turma.",
     horarios: ["06:00", "07:00", "08:00", "10:00 (Sáb)", "18:30", "19:30", "20:30"],
+    cta: { label: "Agendar aula grátis →", href: "/cortesia" },
+  },
+  {
+    icon: FaceSmileIcon,
+    nome: "Funcional Kids",
+    desc: "Treino funcional pensado pra criançada, com muita energia e segurança. Turma única, só na unidade Telégrafo.",
+    horarios: ["Seg, Qua e Sex · 17h", "Unidade Telégrafo"],
+    cta: { label: "Agendar aula grátis →", href: "/cortesia" },
+  },
+  {
+    icon: AcademicCapIcon,
+    nome: "Personal Trainer",
+    desc: "Já tem seu personal trainer? Ele pode te acompanhar aqui na Belfort mediante uma taxa de acesso, com CREF cadastrado.",
+    horarios: ["Horário combinado", "CREF obrigatório"],
+    cta: { label: "Fazer pré-cadastro →", href: "/matricula" },
   },
 ];
 
@@ -35,9 +59,7 @@ export default function Modalidades() {
           <Reveal key={m.nome} delay={i * 100} className="h-full">
             <div className="group relative h-full overflow-hidden bg-[var(--blue-mid)] px-10 py-12 transition-all duration-300 hover:z-10 hover:-translate-y-1 hover:bg-[var(--blue-light)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]">
               <span className="absolute bottom-0 left-0 h-[3px] w-full origin-left scale-x-0 bg-[var(--red)] transition-transform duration-[400ms] group-hover:scale-x-100" />
-              <div className="mb-5 text-5xl transition-transform duration-300 group-hover:scale-110">
-                {m.icon}
-              </div>
+              <m.icon className="mb-5 h-12 w-12 text-[var(--red-glow)] transition-transform duration-300 group-hover:scale-110" />
               <div className="font-heading mb-3 text-[2.2rem] tracking-[0.04em]">{m.nome}</div>
               <p className="max-w-[340px] text-[0.9rem] leading-[1.7] text-white/55">{m.desc}</p>
               <div className="mt-6 flex flex-wrap gap-1.5">
@@ -51,10 +73,10 @@ export default function Modalidades() {
                 ))}
               </div>
               <a
-                href="/cortesia"
+                href={m.cta.href}
                 className="mt-8 inline-flex items-center gap-1.5 text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[var(--red-glow)] transition-[gap] hover:gap-2.5"
               >
-                Agendar aula grátis →
+                {m.cta.label}
               </a>
             </div>
           </Reveal>

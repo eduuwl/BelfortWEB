@@ -1,7 +1,9 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import { AcademicCapIcon, BoltIcon, FaceSmileIcon, FireIcon, InformationCircleIcon } from "@heroicons/react/24/solid";
 import Reveal from "@/components/ui/Reveal";
+import type { IconType } from "@/components/form/FormControls";
 
 interface PlanoCard {
   nome: string;
@@ -13,13 +15,23 @@ interface PlanoCard {
 }
 
 interface Grupo {
+  icon: IconType;
   label: string;
   planos: PlanoCard[];
 }
 
+const PRIME: PlanoCard = {
+  nome: "Belfort Prime",
+  periodo: "Mensal · 2 unidades",
+  preco: "120",
+  parcela: "à vista",
+  features: ["Acesso à musculação", "Treine em Telégrafo e Sacramenta", "Horário livre", "Seg a Sábado"],
+};
+
 const TELEGRAFO: Grupo[] = [
   {
-    label: "🏋️ Musculação",
+    icon: FireIcon,
+    label: "Musculação",
     planos: [
       {
         nome: "Mensal",
@@ -43,10 +55,12 @@ const TELEGRAFO: Grupo[] = [
         parcela: "ou 6x de R$ 100,00",
         features: ["Acesso à musculação", "Horário livre", "Seg a Sábado", "Maior economia"],
       },
+      PRIME,
     ],
   },
   {
-    label: "⚡ Cross Training",
+    icon: BoltIcon,
+    label: "Cross Training",
     planos: [
       {
         nome: "Mensal",
@@ -72,16 +86,64 @@ const TELEGRAFO: Grupo[] = [
       },
     ],
   },
+  {
+    icon: FaceSmileIcon,
+    label: "Funcional Kids",
+    planos: [
+      {
+        nome: "Mensal",
+        periodo: "Seg, Qua e Sex · 17h",
+        preco: "120",
+        parcela: "à vista",
+        features: ["Turma exclusiva kids", "Unidade Telégrafo", "Acompanhamento especializado"],
+      },
+    ],
+  },
+  {
+    icon: AcademicCapIcon,
+    label: "Personal Trainer",
+    planos: [
+      {
+        nome: "Mensal",
+        periodo: "Taxa de acesso",
+        preco: "50",
+        parcela: "à vista",
+        features: ["Traga seu personal trainer", "CREF obrigatório", "Válido nas 2 unidades"],
+      },
+    ],
+  },
 ];
 
-const SACRAMENTA_PLANO: PlanoCard = {
-  nome: "Mensal",
-  periodo: "Pagamento único",
-  preco: "100",
-  parcela: "à vista",
-  features: ["Acesso à musculação", "Horário livre", "+70 aulas coletivas/mês", "Seg a Sábado"],
-  destaque: true,
-};
+const SACRAMENTA: Grupo[] = [
+  {
+    icon: FireIcon,
+    label: "Musculação",
+    planos: [
+      {
+        nome: "Mensal",
+        periodo: "Pagamento único",
+        preco: "100",
+        parcela: "à vista",
+        features: ["Acesso à musculação", "Horário livre", "+70 aulas coletivas/mês", "Seg a Sábado"],
+        destaque: true,
+      },
+      PRIME,
+    ],
+  },
+  {
+    icon: AcademicCapIcon,
+    label: "Personal Trainer",
+    planos: [
+      {
+        nome: "Mensal",
+        periodo: "Taxa de acesso",
+        preco: "50",
+        parcela: "à vista",
+        features: ["Traga seu personal trainer", "CREF obrigatório", "Válido nas 2 unidades"],
+      },
+    ],
+  },
+];
 
 function Card({ plano }: { plano: PlanoCard }) {
   return (
@@ -139,6 +201,7 @@ function Card({ plano }: { plano: PlanoCard }) {
 
 export default function Planos() {
   const [unidade, setUnidade] = useState<"telegrafo" | "sacramenta">("telegrafo");
+  const grupos = unidade === "telegrafo" ? TELEGRAFO : SACRAMENTA;
 
   return (
     <section id="planos" className="bg-[var(--cream)] px-8 py-24 text-[var(--text)]">
@@ -171,40 +234,29 @@ export default function Planos() {
           </div>
         </Reveal>
 
-        {unidade === "telegrafo" ? (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {TELEGRAFO.map((grupo, gi) => (
-              <Fragment key={grupo.label}>
-                <div
-                  className={`col-span-full mb-2 ${gi > 0 ? "mt-6 border-t border-[var(--gray-light)] pt-6" : ""}`}
-                >
-                  <span className="text-[0.75rem] font-semibold uppercase tracking-[0.1em] text-[var(--gray)]">
-                    {grupo.label}
-                  </span>
-                </div>
-                {grupo.planos.map((p, pi) => (
-                  <Reveal key={p.nome} delay={pi * 80}>
-                    <Card plano={p} />
-                  </Reveal>
-                ))}
-              </Fragment>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="col-span-full mb-2">
-              <span className="text-[0.75rem] font-semibold uppercase tracking-[0.1em] text-[var(--gray)]">
-                🏋️ Musculação
-              </span>
-            </div>
-            <Reveal className="md:col-start-2">
-              <Card plano={SACRAMENTA_PLANO} />
-            </Reveal>
-            <p className="col-span-full mt-4 text-center text-[0.8rem] text-[var(--gray)]">
-              ℹ️ A unidade Sacramenta oferece apenas o plano mensal de musculação, com bônus de mais de 70 aulas
-              coletivas mensais.
-            </p>
-          </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {grupos.map((grupo, gi) => (
+            <Fragment key={grupo.label}>
+              <div className={`col-span-full mb-2 ${gi > 0 ? "mt-6 border-t border-[var(--gray-light)] pt-6" : ""}`}>
+                <span className="flex items-center gap-1.5 text-[0.75rem] font-semibold uppercase tracking-[0.1em] text-[var(--gray)]">
+                  <grupo.icon className="h-3.5 w-3.5" />
+                  {grupo.label}
+                </span>
+              </div>
+              {grupo.planos.map((p, pi) => (
+                <Reveal key={p.nome} delay={pi * 80}>
+                  <Card plano={p} />
+                </Reveal>
+              ))}
+            </Fragment>
+          ))}
+        </div>
+
+        {unidade === "sacramenta" && (
+          <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-[0.8rem] text-[var(--gray)]">
+            <InformationCircleIcon className="h-4 w-4 shrink-0" />
+            A unidade Sacramenta não oferece Cross Training nem Funcional Kids.
+          </p>
         )}
       </div>
     </section>

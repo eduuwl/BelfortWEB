@@ -42,6 +42,9 @@ export class CreateMatriculaDto {
   horario: string;
 
   @IsString()
+  cref: string;
+
+  @IsString()
   plano: string;
 
   @IsString()

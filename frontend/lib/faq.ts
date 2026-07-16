@@ -6,7 +6,8 @@ export interface FaqItem {
 export const FAQ: FaqItem[] = [
   {
     pergunta: "Quais são os horários de funcionamento?",
-    resposta: "Funcionamos todos os dias das 6h às 22h nas duas unidades (Telégrafo e Sacramenta).",
+    resposta:
+      "Segunda a sexta das 6h às 22h, e sábado das 8h às 16h, nas duas unidades (Telégrafo e Sacramenta).",
   },
   {
     pergunta: "Preciso agendar horário pra treinar musculação?",
@@ -16,17 +17,22 @@ export const FAQ: FaqItem[] = [
   {
     pergunta: "Como funciona a aula de cortesia gratuita?",
     resposta:
-      "Você escolhe a modalidade (Musculação ou Cross Training), o horário e o dia, e nossa equipe confirma tudo pelo WhatsApp. Na Cross Training, a cortesia inclui 3 aulas consecutivas pra você sentir a energia da turma.",
+      "Você escolhe a modalidade (Musculação, Cross Training ou Funcional Kids), o horário e o dia, e nossa equipe confirma tudo pelo WhatsApp. Na Cross Training, a cortesia inclui 3 aulas consecutivas pra você sentir a energia da turma.",
   },
   {
     pergunta: "Quais modalidades vocês oferecem?",
     resposta:
-      "Musculação e Cross Training, além de mais de 70 aulas coletivas por mês (Fit Dance, Pilates de Solo, Boxe, Muay Thai, Ritmos, Ritbox, Funcional, Dança de Salão, Corrida de Rua, Jump e Power Mix).",
+      "Musculação, Cross Training e Funcional Kids, além de mais de 70 aulas coletivas por mês (Fit Dance, Pilates de Solo, Boxe, Muay Thai, Ritmos, Ritbox, Funcional, Dança de Salão, Corrida de Rua, Jump e Power Mix). Também aceitamos personal trainer externo mediante taxa de acesso.",
   },
   {
-    pergunta: "A unidade Sacramenta tem Cross Training?",
+    pergunta: "A unidade Sacramenta tem Cross Training e Funcional Kids?",
     resposta:
-      "Não — a Sacramenta oferece o plano mensal de musculação com bônus de mais de 70 aulas coletivas por mês. O Cross Training é exclusivo da unidade Telégrafo.",
+      "Não — Cross Training e Funcional Kids são exclusivos da unidade Telégrafo. A Sacramenta oferece o plano mensal de musculação com bônus de mais de 70 aulas coletivas por mês. Quem quiser treinar nas duas unidades pode escolher o plano Belfort Prime.",
+  },
+  {
+    pergunta: "Posso levar meu próprio personal trainer?",
+    resposta:
+      "Sim, mediante uma taxa mensal de acesso. O personal trainer precisa ter o CREF cadastrado no ato do pré-cadastro.",
   },
   {
     pergunta: "Posso cancelar meu plano?",
