@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StepsIndicator from "@/components/form/StepsIndicator";
 import FormNav from "@/components/form/FormNav";
 import {
@@ -36,6 +36,10 @@ import {
 import { cpfValido, formatDate, isValidEmail, maskCPF, maskPhone } from "@/lib/validators";
 import { HORARIOS_CROSS_MATRICULA, PLANOS, type Modalidade, type Unidade } from "@/lib/planos";
 import { submitMatricula } from "@/lib/api";
+import { clearFormPersistence, useFormPersistence } from "@/lib/useFormPersistence";
+import { trackEvent } from "@/lib/analytics";
+
+const STORAGE_KEY = "belfort:matricula";
 
 type Step = 1 | 2 | 3 | 4 | 5 | 6 | "sucesso";
 
@@ -80,13 +84,25 @@ export default function MatriculaForm() {
   const [direction, setDirection] = useState<1 | -1>(1);
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
   const [loading, setLoading] = useState(false);
-  const [submitError, setSubmitError] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [restaurado, setRestaurado] = useState(false);
+
+  useFormPersistence(STORAGE_KEY, { form, step }, (saved) => {
+    setForm(saved.form);
+    setStep(saved.step);
+    if (saved.step !== 1) setRestaurado(true);
+  });
+
+  useEffect(() => {
+    trackEvent("form_start", { form: "matricula" });
+  }, []);
 
   const stepAnim = direction === 1 ? "animate-step-fwd" : "animate-step-back";
 
   function goTo(next: Step) {
     setDirection(typeof step === "number" && typeof next === "number" && next < step ? -1 : 1);
     setStep(next);
+    trackEvent(next === "sucesso" ? "form_complete" : "form_step", { form: "matricula", step: next });
   }
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -137,9 +153,9 @@ export default function MatriculaForm() {
   async function handleSubmit() {
     if (!planoSelecionado || !form.modalidade || !form.unidade) return;
     setLoading(true);
-    setSubmitError(false);
+    setSubmitError(null);
 
-    const ok = await submitMatricula({
+    const result = await submitMatricula({
       nome: form.nome.trim(),
       nascimento: formatDate(form.nascimento),
       email: form.email.trim(),
@@ -157,11 +173,13 @@ export default function MatriculaForm() {
 
     setLoading(false);
 
-    if (!ok) {
-      setSubmitError(true);
+    if (!result.ok) {
+      setSubmitError(result.message);
+      trackEvent("form_error", { form: "matricula", message: result.message });
       return;
     }
 
+    clearFormPersistence(STORAGE_KEY);
     goTo("sucesso");
   }
 
@@ -185,6 +203,23 @@ export default function MatriculaForm() {
 
       <FormWrap>
         <FormCard>
+          {restaurado && step !== "sucesso" && (
+            <div className="mb-4 rounded-[10px] bg-[#EEF3FC] px-3 py-2 text-center text-[0.75rem] text-[var(--blue)]">
+              Continuando de onde você parou.{" "}
+              <button
+                type="button"
+                onClick={() => {
+                  clearFormPersistence(STORAGE_KEY);
+                  setForm(INITIAL_STATE);
+                  setStep(1);
+                  setRestaurado(false);
+                }}
+                className="font-semibold underline underline-offset-2"
+              >
+                Começar de novo
+              </button>
+            </div>
+          )}
           {step !== "sucesso" && <StepsIndicator total={6} current={step as number} />}
 
           {step === 1 && (
@@ -377,9 +412,7 @@ export default function MatriculaForm() {
               </div>
 
               {submitError && (
-                <p className="mb-4 text-center text-[0.82rem] text-[var(--red)]">
-                  Não conseguimos enviar seu pré-cadastro agora. Tente novamente em instantes.
-                </p>
+                <p className="mb-4 text-center text-[0.82rem] text-[var(--red)]">{submitError}</p>
               )}
 
               <BtnPrimary onClick={handleSubmit}>Finalizar pré-cadastro ✓</BtnPrimary>

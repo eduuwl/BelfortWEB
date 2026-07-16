@@ -1,4 +1,4 @@
-import { IsString, Matches, MinLength } from 'class-validator';
+import { IsEmail, IsString, Matches, MinLength } from 'class-validator';
 import { IsCpf } from '../../common/is-cpf.validator';
 
 export class CreateCortesiaDto {
@@ -12,6 +12,9 @@ export class CreateCortesiaDto {
   })
   whatsapp: string;
 
+  @IsEmail()
+  email: string;
+
   @IsCpf()
   cpf: string;
 
@@ -23,6 +26,9 @@ export class CreateCortesiaDto {
 
   @IsString()
   dia: string;
+
+  @IsString()
+  datasAula: string;
 
   @IsString()
   limitacao: string;

@@ -4,8 +4,8 @@ const MODALIDADES = [
   {
     icon: "🏋️",
     nome: "Musculação",
-    desc: "Treino com pesos para ganho de massa, emagrecimento e condicionamento. Horário livre para você treinar no seu ritmo, de segunda a sábado.",
-    horarios: ["Seg–Sex · 07h–17h", "Sáb · 09h–14h", "Horário livre"],
+    desc: "Treino com pesos para ganho de massa, emagrecimento e condicionamento. Horário livre para você treinar no seu ritmo, todos os dias.",
+    horarios: ["Todos os dias · 6h–22h", "Horário livre"],
   },
   {
     icon: "⚡",

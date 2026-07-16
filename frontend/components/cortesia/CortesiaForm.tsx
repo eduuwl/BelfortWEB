@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StepsIndicator from "@/components/form/StepsIndicator";
 import FormNav from "@/components/form/FormNav";
 import {
@@ -28,10 +28,15 @@ import {
   SuccessMsg,
   SuccessTitle,
 } from "@/components/form/FormShell";
-import { cpfValido, maskCPF, maskPhone } from "@/lib/validators";
+import { cpfValido, isValidEmail, maskCPF, maskPhone } from "@/lib/validators";
 import { DIAS_CONSECUTIVOS, DIAS_SEMANA, HORARIOS_CROSS, HORARIOS_MUSC } from "@/lib/horarios";
+import { proximasDatas } from "@/lib/dateUtils";
 import { submitCortesia } from "@/lib/api";
+import { clearFormPersistence, useFormPersistence } from "@/lib/useFormPersistence";
+import { trackEvent } from "@/lib/analytics";
 import type { Modalidade } from "@/lib/planos";
+
+const STORAGE_KEY = "belfort:cortesia";
 
 type Step = 1 | 2 | 3 | 4 | 5 | "sucesso";
 
@@ -39,6 +44,7 @@ interface FormState {
   modalidade: Modalidade | null;
   nome: string;
   whatsapp: string;
+  email: string;
   cpf: string;
   limitacao: boolean | null;
   limitacaoDesc: string;
@@ -50,6 +56,7 @@ const INITIAL_STATE: FormState = {
   modalidade: null,
   nome: "",
   whatsapp: "",
+  email: "",
   cpf: "",
   limitacao: null,
   limitacaoDesc: "",
@@ -64,13 +71,25 @@ export default function CortesiaForm() {
   const [direction, setDirection] = useState<1 | -1>(1);
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
   const [loading, setLoading] = useState(false);
-  const [submitError, setSubmitError] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [restaurado, setRestaurado] = useState(false);
+
+  useFormPersistence(STORAGE_KEY, { form, step }, (saved) => {
+    setForm(saved.form);
+    setStep(saved.step);
+    if (saved.step !== 1) setRestaurado(true);
+  });
+
+  useEffect(() => {
+    trackEvent("form_start", { form: "cortesia" });
+  }, []);
 
   const stepAnim = direction === 1 ? "animate-step-fwd" : "animate-step-back";
 
   function goTo(next: Step) {
     setDirection(typeof step === "number" && typeof next === "number" && next < step ? -1 : 1);
     setStep(next);
+    trackEvent(next === "sucesso" ? "form_complete" : "form_step", { form: "cortesia", step: next });
   }
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -83,6 +102,7 @@ export default function CortesiaForm() {
     form.nome.trim().length >= 3 &&
     form.nome.trim().includes(" ") &&
     form.whatsapp.replace(/\D/g, "").length >= 10 &&
+    isValidEmail(form.email.trim()) &&
     cpfValido(form.cpf) &&
     form.limitacao !== null;
 
@@ -100,6 +120,8 @@ export default function CortesiaForm() {
       : [];
   const diasStr = form.modalidade === "cross" ? diasConsecutivos.join(", ") : (form.dia ?? "");
   const horarioLabel = horarioSelecionado?.label ?? form.horario ?? "";
+  const diasParaData = form.modalidade === "cross" ? diasConsecutivos : form.dia ? [form.dia] : [];
+  const datasAula = proximasDatas(diasParaData).join(", ");
 
   function selectDia(d: string) {
     update("dia", d);
@@ -116,25 +138,29 @@ export default function CortesiaForm() {
   async function handleSubmit() {
     if (!form.modalidade || !form.horario || !form.dia) return;
     setLoading(true);
-    setSubmitError(false);
+    setSubmitError(null);
 
-    const ok = await submitCortesia({
+    const result = await submitCortesia({
       nome: form.nome.trim(),
       whatsapp: form.whatsapp.trim(),
+      email: form.email.trim(),
       cpf: form.cpf.trim(),
       modalidade: form.modalidade === "musculacao" ? "Musculação" : "Cross Training",
       horario: horarioLabel,
       dia: diasStr,
+      datasAula,
       limitacao: form.limitacao ? form.limitacaoDesc.trim() || "Sim" : "Não",
     });
 
     setLoading(false);
 
-    if (!ok) {
-      setSubmitError(true);
+    if (!result.ok) {
+      setSubmitError(result.message);
+      trackEvent("form_error", { form: "cortesia", message: result.message });
       return;
     }
 
+    clearFormPersistence(STORAGE_KEY);
     goTo("sucesso");
   }
 
@@ -157,6 +183,23 @@ export default function CortesiaForm() {
 
       <FormWrap>
         <FormCard>
+          {restaurado && step !== "sucesso" && (
+            <div className="mb-4 rounded-[10px] bg-[#EEF3FC] px-3 py-2 text-center text-[0.75rem] text-[var(--blue)]">
+              Continuando de onde você parou.{" "}
+              <button
+                type="button"
+                onClick={() => {
+                  clearFormPersistence(STORAGE_KEY);
+                  setForm(INITIAL_STATE);
+                  setStep(1);
+                  setRestaurado(false);
+                }}
+                className="font-semibold underline underline-offset-2"
+              >
+                Começar de novo
+              </button>
+            </div>
+          )}
           {step !== "sucesso" && <StepsIndicator total={5} current={step as number} />}
 
           {step === 1 && (
@@ -183,6 +226,14 @@ export default function CortesiaForm() {
 
               <FieldInput label="Nome completo" value={form.nome} onChange={(v) => update("nome", v)} placeholder="Ex: João Silva" />
               <FieldInput label="WhatsApp (com DDD)" value={form.whatsapp} onChange={(v) => update("whatsapp", maskPhone(v))} placeholder="Ex: 91988776655" />
+              <FieldInput
+                label="E-mail"
+                type="email"
+                value={form.email}
+                onChange={(v) => update("email", v)}
+                placeholder="seu@email.com"
+                hint={<span className="font-normal normal-case text-[var(--gray)]">(pra te lembrar da aula)</span>}
+              />
               <FieldInput label="CPF" value={form.cpf} onChange={(v) => update("cpf", maskCPF(v))} placeholder="000.000.000-00" maxLength={14} />
 
               <div className="mb-1">
@@ -283,6 +334,7 @@ export default function CortesiaForm() {
                 <ResumoItem label="Modalidade" value={form.modalidade === "musculacao" ? "🏋️ Musculação" : "⚡ Cross Training"} />
                 <ResumoItem label="Nome" value={form.nome.trim()} />
                 <ResumoItem label="WhatsApp" value={form.whatsapp} />
+                <ResumoItem label="E-mail" value={form.email.trim()} />
                 <ResumoItem label="CPF" value={form.cpf} />
                 <ResumoItem label="Horário" value={horarioLabel} />
                 <ResumoItem label="Dia(s)" value={diasStr} />
@@ -292,9 +344,7 @@ export default function CortesiaForm() {
               </div>
 
               {submitError && (
-                <p className="mb-4 text-center text-[0.82rem] text-[var(--red)]">
-                  Não conseguimos confirmar seu agendamento agora. Tente novamente em instantes.
-                </p>
+                <p className="mb-4 text-center text-[0.82rem] text-[var(--red)]">{submitError}</p>
               )}
 
               <BtnPrimary onClick={handleSubmit}>Confirmar agendamento ✓</BtnPrimary>

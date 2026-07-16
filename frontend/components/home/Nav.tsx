@@ -8,6 +8,7 @@ const LINKS = [
   { href: "#modalidades", label: "Modalidades" },
   { href: "#planos", label: "Planos" },
   { href: "#unidades", label: "Unidades" },
+  { href: "#faq", label: "FAQ" },
 ];
 
 export default function Nav() {
