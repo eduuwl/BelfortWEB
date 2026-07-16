@@ -1,0 +1,207 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-dm-sans), sans-serif;
+}
+
+.font-heading {
+  font-family: var(--font-bebas), sans-serif;
+}
+
+/* ── Temas por página (portados dos :root de cada página original) ── */
+
+.theme-home {
+  --red: #cc3738;
+  --red-dark: #8f1f20;
+  --red-glow: #ff4444;
+  --blue: #0d1f3c;
+  --blue-mid: #162d55;
+  --blue-light: #1e4a8a;
+  --white: #ffffff;
+  --cream: #f2f0eb;
+  --gray: #888;
+  --gray-light: #e0dfdb;
+  --text: #111;
+}
+
+.theme-matricula {
+  --red: #cc3738;
+  --red-dark: #a01e1e;
+  --red-light: #ff3b3b;
+  --blue: #1a3a6b;
+  --blue-mid: #1e4d9b;
+  --blue-light: #2563d4;
+  --white: #ffffff;
+  --off-white: #f5f4f0;
+  --gray: #9a9a9a;
+  --gray-light: #e8e8e4;
+  --text: #111111;
+}
+
+.theme-cortesia {
+  --red: #cf0e0e;
+  --red-dark: #922020;
+  --red-light: #e01313;
+  --blue: #362c5d;
+  --blue-mid: #1e4d9b;
+  --blue-light: #2563d4;
+  --white: #ffffff;
+  --off-white: #f5f4f0;
+  --gray: #9a9a9a;
+  --gray-light: #e8e8e4;
+  --text: #111111;
+}
+
+/* ── Animações ── */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceScroll {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(8px);
+  }
+}
+
+@keyframes fadeInStep {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 30px rgba(204, 55, 56, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 46px rgba(204, 55, 56, 0.7);
+  }
+}
+
+@keyframes stepFwd {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes stepBack {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.75;
+  }
+}
+
+@keyframes successPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-10deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1) rotate(3deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-bounce-scroll {
+  animation: bounceScroll 2s infinite;
+}
+
+.animate-fade-in-step {
+  animation: fadeInStep 0.3s ease;
+}
+
+.animate-spin-slow {
+  animation: spin 0.8s linear infinite;
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 2.6s ease-in-out infinite;
+}
+
+.animate-modal-in {
+  animation: modalIn 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-step-fwd {
+  animation: stepFwd 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-step-back {
+  animation: stepBack 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-breathe {
+  animation: breathe 5s ease-in-out infinite;
+}
+
+.animate-success-pop {
+  animation: successPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
