@@ -115,7 +115,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="animate-bounce-scroll absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 opacity-40">
+      <div className="animate-bounce-scroll absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 opacity-40 md:flex">
         <span className="text-[0.65rem] uppercase tracking-[0.15em]">scroll</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-5 w-5">
           <path d="M12 5v14M5 12l7 7 7-7" />

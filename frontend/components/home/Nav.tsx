@@ -73,7 +73,7 @@ export default function Nav() {
         </ul>
 
         <div
-          className="flex md:hidden cursor-pointer flex-col gap-[5px] p-1"
+          className={`md:hidden cursor-pointer flex-col gap-[5px] p-1 ${menuOpen ? "hidden" : "flex"}`}
           onClick={() => setMenuOpen(true)}
         >
           <span className="block h-0.5 w-6 rounded bg-white" />

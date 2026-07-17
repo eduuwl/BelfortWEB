@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MapPinIcon } from "@heroicons/react/24/solid";
+import { ArrowsRightLeftIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import {
   COLETIVAS,
   COLETIVA_COLORS,
@@ -146,11 +146,20 @@ export default function ColetivasSection() {
             </div>
 
             <div className="flex-1 overflow-y-auto px-8 pb-8 pt-6">
-              {tab === "telegrafo" ? (
-                <GradeTable dias={DIAS_TELEGRAFO} rows={GRADE_TELEGRAFO} />
-              ) : (
-                <GradeTable dias={DIAS_SACRAMENTA} rows={GRADE_SACRAMENTA} />
-              )}
+              <div className="mb-2 flex items-center gap-1.5 text-[0.7rem] text-white/40 sm:hidden">
+                <ArrowsRightLeftIcon className="h-3.5 w-3.5" />
+                Arraste para o lado para ver todos os dias
+              </div>
+              <div className="relative">
+                <div className="overflow-x-auto">
+                  {tab === "telegrafo" ? (
+                    <GradeTable dias={DIAS_TELEGRAFO} rows={GRADE_TELEGRAFO} />
+                  ) : (
+                    <GradeTable dias={DIAS_SACRAMENTA} rows={GRADE_SACRAMENTA} />
+                  )}
+                </div>
+                <span className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#0D1F3C] to-transparent sm:hidden" />
+              </div>
             </div>
           </div>
         </div>
